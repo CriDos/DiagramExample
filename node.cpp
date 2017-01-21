@@ -70,8 +70,10 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
+    painter->save();
     painter->setPen(QColor("white"));
     painter->drawRect(mRect);
+    painter->restore();
 }
 
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)

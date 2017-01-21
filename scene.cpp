@@ -33,7 +33,7 @@ Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
     setSceneRect(0, 0, 500, 500);
-    mRouter = new Avoid::Router(Avoid::OrthogonalRouting);
+    mRouter = new Avoid::Router(Avoid::PolyLineRouting);
     //mRouter = new Avoid::Router(Avoid::PolyLineRouting);
     mRouter->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
     mRouter->setRoutingParameter(Avoid::idealNudgingDistance, 20.0);
@@ -50,6 +50,7 @@ void Scene::handleConnectorCallback(void *context)
 {
     RouteLine *edge = static_cast<RouteLine *>(context);
     edge->update();
+    edge->updateRect();
 }
 
 void Scene::addShape(Node *shape)

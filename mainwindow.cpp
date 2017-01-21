@@ -53,6 +53,14 @@ MainWindow::MainWindow(QWidget *parent)
     m_scene->addShape(mri2);
     mri2->setPos(100, 110);
 
+    Node *mri4 = new Node(QSize(40, 40), m_scene->router());
+    m_scene->addShape(mri4);
+    mri4->setPos(123, 55);
+
+    Node *mri5 = new Node(QSize(40, 40), m_scene->router());
+    m_scene->addShape(mri5);
+    mri5->setPos(156, 11);
+
     Node *mri3 = new Node(QSize(40, 40), m_scene->router());
     m_scene->addShape(mri3);
     mri3->setPos(200, 110);

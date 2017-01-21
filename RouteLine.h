@@ -26,6 +26,8 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
+    void updateRect();
+
     QPen pen() const;
     void setPen(const QPen &pen);
 
