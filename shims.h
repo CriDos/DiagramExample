@@ -8,30 +8,24 @@
 #include <libavoid/geomtypes.h>
 #include <libavoid/connector.h>
 
-QPointF convertPoint(const Avoid::Point& point);
+QPointF convertPoint(const Avoid::Point &point);
 
-Avoid::Point convertPoint(const QPointF& point);
+Avoid::Point convertPoint(const QPointF &point);
 
+QRectF convertRectangle(const Avoid::Rectangle &rect);
 
-QRectF convertRectangle(const Avoid::Rectangle& rect);
+Avoid::Rectangle convertRectangle(const QRectF &rect);
 
-Avoid::Rectangle convertRectangle(const QRectF& rect);
+Avoid::Polygon convertPolygon(const QRectF &rect);
 
+Avoid::Polygon convertPolygon(const QPolygonF &polygon);
 
+QPolygonF convertPolygon(const Avoid::Polygon &polygon);
 
+QPainterPath convertPolyLine(const Avoid::PolyLine &polyline);
 
-Avoid::Polygon convertPolygon(const QRectF& rect);
+QPainterPath makePainterPath(Avoid::ConnRef *connection);
 
-Avoid::Polygon convertPolygon(const QPolygonF& polygon);
+QPolygonF createArrow(const QPointF &start, const QPointF &end);
 
-QPolygonF convertPolygon(const Avoid::Polygon& polygon);
-
-
-
-QPainterPath convertPolyLine(const Avoid::PolyLine& polyline);
-
-QPainterPath makePainterPath(Avoid::ConnRef* connection);
-
-QPolygonF createArrow(const QPointF& start, const QPointF& end);
-
-QPolygonF createArrow(Avoid::ConnRef* connection);
+QPolygonF createArrow(Avoid::ConnRef *connection);

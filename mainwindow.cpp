@@ -28,11 +28,11 @@
 #include <QTransform>
 
 #include "mainwindow.h"
-#include "drawingscene.h"
+#include "scene.h"
 #include "ui_mainwindow.h"
-#include "rectangleshape.h"
+#include "node.h"
 #include "shims.h"
-#include "edge.h"
+#include "RouteLine.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,30 +41,27 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->changeBrushButton->setVisible(false);
-    ui->changePenButton->setVisible(false);
-
     ui->graphicsView->setBackgroundBrush(QBrush(Qt::black));
-    mDrawingScene = new DrawingScene(0, 0, 640, 480, this);
-    ui->graphicsView->setScene(mDrawingScene);
+    m_scene = new Scene(this);
+    ui->graphicsView->setScene(m_scene);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     //ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 
-    RectangleShape *mri1 = new RectangleShape(QSize(40, 40), mDrawingScene->router());
-    mDrawingScene->addShape(mri1);
+    Node *mri1 = new Node(QSize(40, 40), m_scene->router());
+    m_scene->addShape(mri1);
     mri1->setPos(47, 60);
 
-    RectangleShape *mri2 = new RectangleShape(QSize(40, 40), mDrawingScene->router());
-    mDrawingScene->addShape(mri2);
+    Node *mri2 = new Node(QSize(40, 40), m_scene->router());
+    m_scene->addShape(mri2);
     mri2->setPos(100, 110);
 
-    RectangleShape *mri3 = new RectangleShape(QSize(40, 40), mDrawingScene->router());
-    mDrawingScene->addShape(mri3);
+    Node *mri3 = new Node(QSize(40, 40), m_scene->router());
+    m_scene->addShape(mri3);
     mri3->setPos(200, 110);
 
-    Edge *edge1 = new Edge("first", mDrawingScene->router(), mri1, mri2);
+    RouteLine *edge1 = new RouteLine(m_scene->router(), mri1, mri2);
     edge1->setPen(QPen(Qt::green));
-    mDrawingScene->addEdge(edge1);
+    m_scene->addEdge(edge1);
 }
 
 MainWindow::~MainWindow()

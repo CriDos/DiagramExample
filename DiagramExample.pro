@@ -16,15 +16,15 @@ DEFINES += _AFXDLL
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    drawingscene.cpp \
     shims.cpp \
-    rectangleshape.cpp \
-    edge.cpp
+    node.cpp \
+    scene.cpp \
+    RouteLine.cpp
 
 HEADERS  += mainwindow.h \
-    drawingscene.h \
     shims.h \
-    rectangleshape.h \
-    edge.h
+    node.h \
+    scene.h \
+    RouteLine.h
 
 FORMS    += mainwindow.ui

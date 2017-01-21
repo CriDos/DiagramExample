@@ -5,7 +5,7 @@
 #include <QPen>
 #include <QGraphicsPathItem>
 
-class DrawingScene;
+class Scene;
 
 namespace Avoid
 {
@@ -29,7 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    DrawingScene* mDrawingScene;
+    Scene* m_scene;
 
     Avoid::ConnRef* mConnRef;
 
