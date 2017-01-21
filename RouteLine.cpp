@@ -8,29 +8,29 @@
 
 #include "RouteLine.h"
 #include "node.h"
-#include "shims.h"
+#include "utils.h"
 
 RouteLine::RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent)
-    : QGraphicsObject(parent)
-    , mRouter(router)
-    , mSrc(src)
-    , mDst(dst)
-    , mConnRef(0)
+    : QGraphicsItem(parent)
+    , m_router(router)
+    , m_src(src)
+    , m_dst(dst)
+    , m_connRef(0)
 {
-    mConnRef = new Avoid::ConnRef(mRouter, *(mSrc->connectionEnd()), *(mDst->connectionEnd()));
-    mRouter->processTransaction();
-    mPath = makePainterPath(mConnRef);
+    m_connRef = new Avoid::ConnRef(m_router, *(m_src->connectionEnd()), *(m_dst->connectionEnd()));
+    m_router->processTransaction();
+    m_path = Utils::makePainterPath(m_connRef);
     setZValue(-1);
 }
 
 QPainterPath RouteLine::shape() const
 {
-    return makePainterPath(mConnRef);
+    return Utils::makePainterPath(m_connRef);
 }
 
 QRectF RouteLine::boundingRect() const
 {
-    return mPath.boundingRect();
+    return m_path.boundingRect();
 }
 
 void RouteLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -39,55 +39,40 @@ void RouteLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(widget);
 
     painter->save();
-    mPath = makePainterPath(mConnRef);
-    painter->setPen(mPen);
-    painter->drawPath(mPath);
+
+    painter->setPen(Qt::green);
+    painter->drawPath(m_path);
+
     painter->restore();
 }
 
-void RouteLine::updateRect()
+void RouteLine::updatePath()
 {
+    m_path = Utils::makePainterPath(m_connRef);
     scene()->update();
-}
-
-QPen RouteLine::pen() const
-{
-    return mPen;
-}
-
-void RouteLine::setPen(const QPen &pen)
-{
-    mPen = pen;
-    update();
 }
 
 Node *RouteLine::source() const
 {
-    return mSrc;
+    return m_src;
 }
 
 void RouteLine::setSource(Node *shape)
 {
-    mSrc = shape;
+    m_src = shape;
 }
 
 Node *RouteLine::destination() const
 {
-    return mDst;
+    return m_dst;
 }
 
 void RouteLine::setDestination(Node *shape)
 {
-    mDst = shape;
+    m_dst = shape;
 }
 
 Avoid::ConnRef *RouteLine::connection() const
 {
-    return mConnRef;
-}
-
-QPainterPath RouteLine::path()
-{
-    mPath = makePainterPath(mConnRef);
-    return mPath;
+    return m_connRef;
 }

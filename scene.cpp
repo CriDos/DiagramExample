@@ -50,7 +50,7 @@ void Scene::handleConnectorCallback(void *context)
 {
     RouteLine *edge = static_cast<RouteLine *>(context);
     edge->update();
-    edge->updateRect();
+    edge->updatePath();
 }
 
 void Scene::addShape(Node *shape)

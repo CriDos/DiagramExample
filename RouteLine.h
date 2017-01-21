@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QGraphicsObject>
+#include <QGraphicsItem>
 #include <QGraphicsPathItem>
 #include <QString>
 #include <QPen>
@@ -15,10 +15,8 @@ class Router;
 
 class Node;
 
-class RouteLine : public QGraphicsObject
+class RouteLine : public QGraphicsItem
 {
-    Q_OBJECT
-
 public:
     RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
 
@@ -26,10 +24,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    void updateRect();
-
-    QPen pen() const;
-    void setPen(const QPen &pen);
+    void updatePath();
 
     Node *source() const;
     void setSource(Node *shape);
@@ -39,14 +34,11 @@ public:
 
     Avoid::ConnRef *connection() const;
 
-    QPainterPath path();
-
 private:
-    Avoid::Router *mRouter;
-    QPen mPen;
-    QPainterPath mPath;
+    Avoid::Router *m_router;
+    QPainterPath m_path;
 
-    Node *mSrc;
-    Node *mDst;
-    Avoid::ConnRef *mConnRef;
+    Node *m_src;
+    Node *m_dst;
+    Avoid::ConnRef *m_connRef;
 };

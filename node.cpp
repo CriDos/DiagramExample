@@ -32,22 +32,21 @@
 #include <libavoid/router.h>
 #include <libavoid/shape.h>
 
-#include "shims.h"
+#include "utils.h"
 
 #include "node.h"
 
 Node::Node(const QSize &size, Avoid::Router *router, QGraphicsItem *parent)
-    : QGraphicsObject(parent)
-    , mRouter(router)
-    , mShapeRef(0)
-    , mRect(QRectF(0, 0, size.width(), size.height()))
-    , mBorder(0.0)
+    : QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
 
-    Avoid::Rectangle rect = convertRectangle(mRect);
+    mRouter = router;
+    mShapeRef = nullptr;
+    mRect = QRectF(0, 0, size.width(), size.height());
+    Avoid::Rectangle rect = Utils::convertRectangle(mRect);
     mShapeRef = new Avoid::ShapeRef(mRouter, rect);
 
     mPin = new Avoid::ShapeConnectionPin(mShapeRef, 1,
@@ -81,45 +80,18 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
     if (change == ItemPositionChange) {
         QPointF newPos = value.toPointF();
 
-        qreal sw = mRect.width();
-        qreal sh = mRect.height();
-        qreal sx = newPos.x() + (sw / 2);
-        qreal sy = newPos.y() + (sh / 2);
+        qreal w = mRect.width();
+        qreal h = mRect.height();
+        qreal x = newPos.x() + (w / 2);
+        qreal y = newPos.y() + (h / 2);
 
-        Avoid::Rectangle poly(Avoid::Point(sx, sy),
-                              sw, sh);
+        Avoid::Rectangle poly(Avoid::Point(x, y), w, h);
 
         mRouter->moveShape(mShapeRef, poly);
-
         mRouter->processTransaction();
     }
 
-    return QGraphicsObject::itemChange(change, value);
-}
-
-int Node::type() const
-{
-    return Type;
-}
-
-void Node::setRouter(Avoid::Router *router)
-{
-    mRouter = router;
-}
-
-const Avoid::Router *Node::router() const
-{
-    return mRouter;
-}
-
-const Avoid::ShapeRef *Node::shapeRef() const
-{
-    return mShapeRef;
-}
-
-const Avoid::ShapeConnectionPin *Node::pin() const
-{
-    return mPin;
+    return QGraphicsItem::itemChange(change, value);
 }
 
 Avoid::ConnEnd *Node::connectionEnd() const

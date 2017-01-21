@@ -17,15 +17,15 @@ DEFINES += _AFXDLL
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    shims.cpp \
     node.cpp \
     scene.cpp \
-    RouteLine.cpp
+    RouteLine.cpp \
+    utils.cpp
 
 HEADERS  += mainwindow.h \
-    shims.h \
     node.h \
     scene.h \
-    RouteLine.h
+    RouteLine.h \
+    utils.h
 
 FORMS    += mainwindow.ui
