@@ -29,7 +29,6 @@
 #include <QPen>
 #include <QBrush>
 
-
 #include <libavoid/router.h>
 #include <libavoid/shape.h>
 
@@ -37,12 +36,12 @@
 
 #include "node.h"
 
-Node::Node(const QSize &size, Avoid::Router* router, QGraphicsItem *parent) :
-    QGraphicsObject(parent),
-    mRouter(router),
-    mShapeRef(0),
-    mRect(QRectF(0, 0, size.width(), size.height())),
-    mBorder(0.0)
+Node::Node(const QSize &size, Avoid::Router *router, QGraphicsItem *parent)
+    : QGraphicsObject(parent)
+    , mRouter(router)
+    , mShapeRef(0)
+    , mRect(QRectF(0, 0, size.width(), size.height()))
+    , mBorder(0.0)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
@@ -52,9 +51,9 @@ Node::Node(const QSize &size, Avoid::Router* router, QGraphicsItem *parent) :
     mShapeRef = new Avoid::ShapeRef(mRouter, rect);
 
     mPin = new Avoid::ShapeConnectionPin(mShapeRef, 1,
-                                  Avoid::ATTACH_POS_CENTRE,
-                                  Avoid::ATTACH_POS_CENTRE, true,
-                                  0.0, Avoid::ConnDirAll);
+                                         Avoid::ATTACH_POS_CENTRE,
+                                         Avoid::ATTACH_POS_CENTRE, true,
+                                         0.0, Avoid::ConnDirAll);
 
     mConnEnd = new Avoid::ConnEnd(mShapeRef, 1);
 
@@ -73,41 +72,24 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
     painter->setPen(QColor("white"));
     painter->drawRect(mRect);
-
 }
 
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-
-    if ( change == ItemPositionChange )
-    {
+    if (change == ItemPositionChange) {
         QPointF newPos = value.toPointF();
-        QRectF sceneRect = scene()->sceneRect();
 
-        qreal checkX, checkY;
+        qreal sw = mRect.width();
+        qreal sh = mRect.height();
+        qreal sx = newPos.x() + (sw / 2);
+        qreal sy = newPos.y() + (sh / 2);
 
-        checkX = sceneRect.right() - mRect.width() - mBorder;
-        checkY = sceneRect.bottom() - mRect.height() - mBorder;
+        Avoid::Rectangle poly(Avoid::Point(sx, sy),
+                              sw, sh);
 
-        if ( newPos.x() > checkX )
-            newPos.setX(checkX);
-        else if ( newPos.x() < sceneRect.left() + mBorder )
-            newPos.setX(mRect.left() + mBorder);
+        mRouter->moveShape(mShapeRef, poly);
 
-        if ( newPos.y() > checkY )
-            newPos.setY(checkY);
-        else if ( newPos.y() < sceneRect.top()  + mBorder )
-            newPos.setY(mRect.top() + mBorder);
-
-        //qDebug() << "itemChange newPos:" << newPos;
-
-        Avoid::Rectangle newAvoidRect = convertRectangle(QRectF(newPos.x(), newPos.y(), mRect.width(), mRect.height()));
-        mRouter->moveShape(mShapeRef, newAvoidRect);
         mRouter->processTransaction();
-
-        emit onNodeMoved();
-
-        return newPos;
     }
 
     return QGraphicsObject::itemChange(change, value);
@@ -117,7 +99,6 @@ int Node::type() const
 {
     return Type;
 }
-
 
 void Node::setRouter(Avoid::Router *router)
 {
@@ -134,7 +115,6 @@ const Avoid::ShapeRef *Node::shapeRef() const
     return mShapeRef;
 }
 
-
 const Avoid::ShapeConnectionPin *Node::pin() const
 {
     return mPin;
@@ -142,5 +122,5 @@ const Avoid::ShapeConnectionPin *Node::pin() const
 
 Avoid::ConnEnd *Node::connectionEnd() const
 {
-   return mConnEnd;
+    return mConnEnd;
 }

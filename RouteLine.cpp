@@ -37,6 +37,7 @@ RouteLine::RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem 
     mConnRef = new Avoid::ConnRef(mRouter, *(mSrc->connectionEnd()), *(mDst->connectionEnd()));
     mRouter->processTransaction();
     mPath = makePainterPath(mConnRef);
+    setZValue(-1);
 }
 
 QPainterPath RouteLine::shape() const

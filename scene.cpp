@@ -35,9 +35,9 @@ Scene::Scene(QObject *parent)
     setSceneRect(0, 0, 500, 500);
     mRouter = new Avoid::Router(Avoid::OrthogonalRouting);
     //mRouter = new Avoid::Router(Avoid::PolyLineRouting);
-    //mRouter->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
-    //mRouter->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
-    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
+    mRouter->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
+    mRouter->setRoutingParameter(Avoid::idealNudgingDistance, 20.0);
+    mRouter->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
     //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
 }
 
@@ -67,4 +67,3 @@ Avoid::Router *Scene::router() const
 {
     return mRouter;
 }
-

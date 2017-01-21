@@ -18,10 +18,10 @@ class QWidget;
 
 namespace Avoid
 {
-    class Router;
-    class ShapeRef;
-    class ShapeConnectionPin;
-    class ConnEnd;
+class Router;
+class ShapeRef;
+class ShapeConnectionPin;
+class ConnEnd;
 }
 
 class Node : public QGraphicsObject
@@ -29,41 +29,33 @@ class Node : public QGraphicsObject
     Q_OBJECT
 
 public:
-    enum
-    {
+    enum {
         Type = UserType + 1
     };
 
-    Node(const QSize& size, Avoid::Router *router, QGraphicsItem* parent=0);
+    Node(const QSize &size, Avoid::Router *router, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget=0);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant& value);
+    virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value);
 
     int type() const;
 
     void setRouter(Avoid::Router *router);
-    const Avoid::Router* router() const;
+    const Avoid::Router *router() const;
 
-    const Avoid::ShapeRef* shapeRef() const;
+    const Avoid::ShapeRef *shapeRef() const;
 
-    const Avoid::ShapeConnectionPin* pin() const;
+    const Avoid::ShapeConnectionPin *pin() const;
 
     Avoid::ConnEnd *connectionEnd() const;
 
-
-signals:
-    void onNodeMoved();
-
 private:
-    Avoid::Router* mRouter;
-    Avoid::ShapeRef* mShapeRef;
-    Avoid::ShapeConnectionPin* mPin;
-    Avoid::ConnEnd* mConnEnd;
+    Avoid::Router *mRouter;
+    Avoid::ShapeRef *mShapeRef;
+    Avoid::ShapeConnectionPin *mPin;
+    Avoid::ConnEnd *mConnEnd;
     QRectF mRect;
     qreal mBorder;
-
-
 };
-
