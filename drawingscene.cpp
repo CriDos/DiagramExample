@@ -66,7 +66,7 @@ void DrawingScene::handleConnectorCallback_p(void *context)
     edge->update();
 }
 
-void DrawingScene::addShape(ShapeBase *shape)
+void DrawingScene::addShape(RectangleShape *shape)
 {
     addItem(shape);
 }
@@ -89,22 +89,7 @@ void DrawingScene::drawDiagram()
 
 void DrawingScene::handleSelectionChange()
 {
-#if 0
-    QList<QGraphicsItem*> selected = selectedItems();
-    QListIterator<QGraphicsItem*> li(selected);
 
-    while ( li.hasNext() )
-    {
-        QGraphicsItem* item = li.next();
-        MyRectangleItem* mri = qgraphicsitem_cast<MyRectangleItem*>(item);
-
-        //if ( mri )
-        //{
-            //mri->update();
-        //}
-
-    }
-#endif
 }
 
 void DrawingScene::makeRouter_p()

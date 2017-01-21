@@ -44,17 +44,11 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_changeBrushButton_clicked();
-    void on_changePenButton_clicked();
-    void handleShapeMoved();
 
 private:
     Ui::MainWindow *ui;
 
     DrawingScene* mDrawingScene;
-
-    QBrush mBrush;
-    QPen mPen;
 
     Avoid::ConnRef* mConnRef;
 

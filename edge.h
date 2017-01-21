@@ -33,7 +33,7 @@ class ShapeRef;
 class Router;
 }
 
-class ShapeBase;
+class RectangleShape;
 
 class Edge : public QGraphicsObject
 {
@@ -43,7 +43,7 @@ class Edge : public QGraphicsObject
     Q_PROPERTY(QPen pen READ pen WRITE setPen)
 
 public:
-    Edge(const QString& name, Avoid::Router *router, ShapeBase* src, ShapeBase* dst, QGraphicsItem* parent=0);
+    Edge(const QString& name, Avoid::Router *router, RectangleShape* src, RectangleShape* dst, QGraphicsItem* parent=0);
 
     virtual QPainterPath shape() const;
     QRectF boundingRect() const;
@@ -55,11 +55,11 @@ public:
     QPen pen() const;
     void setPen(const QPen& pen);
 
-    ShapeBase* source() const;
-    void setSource(ShapeBase* shape);
+    RectangleShape* source() const;
+    void setSource(RectangleShape* shape);
 
-    ShapeBase* destination() const;
-    void setDestination(ShapeBase* shape);
+    RectangleShape* destination() const;
+    void setDestination(RectangleShape* shape);
 
     Avoid::ConnRef* connection() const;
 
@@ -71,8 +71,8 @@ private:
     QPen mPen;
     QPainterPath mPath;
 
-    ShapeBase* mSrc;
-    ShapeBase* mDst;
+    RectangleShape* mSrc;
+    RectangleShape* mDst;
     Avoid::ConnRef* mConnRef;
 };
 

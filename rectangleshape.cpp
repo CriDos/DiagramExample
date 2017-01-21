@@ -26,6 +26,8 @@
 #include <QRectF>
 #include <QPointF>
 #include <QDebug>
+#include <QPen>
+#include <QBrush>
 
 
 #include <libavoid/router.h>
@@ -36,7 +38,9 @@
 #include "rectangleshape.h"
 
 RectangleShape::RectangleShape(const QSize &size, Avoid::Router* router, QGraphicsItem *parent) :
-    ShapeBase(router, parent),
+    QGraphicsObject(parent),
+    mRouter(router),
+    mShapeRef(0),
     mRect(QRectF(0, 0, size.width(), size.height())),
     mBorder(0.0)
 {
@@ -67,22 +71,7 @@ void RectangleShape::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QPen usePen;
-    QBrush useBrush;
-
-    if ( isSelected() )
-    {
-        usePen = QPen(mPen.brush(), mPen.widthF(), Qt::DashLine);
-        useBrush = mBrush;
-    }
-    else
-    {
-        usePen = mPen;
-        useBrush = mBrush;
-    }
-
-    painter->setPen(usePen);
-    painter->setBrush(useBrush);
+    painter->setPen(QColor("white"));
     painter->drawRect(mRect);
 
 }
@@ -130,26 +119,28 @@ int RectangleShape::type() const
 }
 
 
-#if 0
-void MyRectangleItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void RectangleShape::setRouter(Avoid::Router *router)
 {
-    qDebug() << "DOUBLE CLICK";
+    mRouter = router;
 }
 
-void MyRectangleItem::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+const Avoid::Router *RectangleShape::router() const
 {
-    qDebug() << "Mouse MOVE";
-
-    QGraphicsItem::mouseMoveEvent(mouseEvent);
+    return mRouter;
 }
 
-void MyRectangleItem::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+const Avoid::ShapeRef *RectangleShape::shapeRef() const
 {
-    QGraphicsItem::mousePressEvent(mouseEvent);
+    return mShapeRef;
 }
 
-void MyRectangleItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+
+const Avoid::ShapeConnectionPin *RectangleShape::pin() const
 {
-    QGraphicsItem::mouseReleaseEvent(mouseEvent);
+    return mPin;
 }
-#endif
+
+Avoid::ConnEnd *RectangleShape::connectionEnd() const
+{
+   return mConnEnd;
+}

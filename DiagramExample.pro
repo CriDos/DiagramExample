@@ -19,16 +19,12 @@ SOURCES += main.cpp\
     drawingscene.cpp \
     shims.cpp \
     rectangleshape.cpp \
-    shapebase.cpp \
-    edge.cpp \
-    polygonshape.cpp
+    edge.cpp
 
 HEADERS  += mainwindow.h \
     drawingscene.h \
     shims.h \
     rectangleshape.h \
-    shapebase.h \
-    edge.h \
-    polygonshape.h
+    edge.h
 
 FORMS    += mainwindow.ui

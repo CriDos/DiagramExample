@@ -30,8 +30,6 @@
 
 #include <libavoid/router.h>
 
-#include "shapebase.h"
-
 class QGraphicsItem;
 class QPainter;
 class QStyleOptionGraphicsItem;
@@ -45,7 +43,7 @@ namespace Avoid
     class ConnEnd;
 }
 
-class RectangleShape : public ShapeBase
+class RectangleShape : public QGraphicsObject
 {
     Q_OBJECT
 
@@ -67,20 +65,24 @@ public:
 
     int type() const;
 
+    void setRouter(Avoid::Router *router);
+    const Avoid::Router* router() const;
+
+    const Avoid::ShapeRef* shapeRef() const;
+
     const Avoid::ShapeConnectionPin* pin() const;
 
-#if 0
-protected:
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
-#endif
+    Avoid::ConnEnd *connectionEnd() const;
+
 
 signals:
     void shapeMoved();
 
 private:
+    Avoid::Router* mRouter;
+    Avoid::ShapeRef* mShapeRef;
+    Avoid::ShapeConnectionPin* mPin;
+    Avoid::ConnEnd* mConnEnd;
     QRectF mRect;
     qreal mBorder;
 

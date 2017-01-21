@@ -24,10 +24,10 @@
 #include <libavoid/router.h>
 
 #include "edge.h"
-#include "shapebase.h"
+#include "rectangleshape.h"
 #include "shims.h"
 
-Edge::Edge(const QString &name, Avoid::Router* router, ShapeBase *src, ShapeBase *dst, QGraphicsItem *parent) :
+Edge::Edge(const QString &name, Avoid::Router* router, RectangleShape *src, RectangleShape *dst, QGraphicsItem *parent) :
     QGraphicsObject(parent),
     mName(name),
     mRouter(router),
@@ -82,22 +82,22 @@ void Edge::setPen(const QPen &pen)
     update();
 }
 
-ShapeBase *Edge::source() const
+RectangleShape *Edge::source() const
 {
    return mSrc;
 }
 
-void Edge::setSource(ShapeBase *shape)
+void Edge::setSource(RectangleShape *shape)
 {
     mSrc = shape;
 }
 
-ShapeBase *Edge::destination() const
+RectangleShape *Edge::destination() const
 {
    return mDst;
 }
 
-void Edge::setDestination(ShapeBase *shape)
+void Edge::setDestination(RectangleShape *shape)
 {
     mDst = shape;
 }

@@ -30,7 +30,7 @@ namespace Avoid
     class Router;
 }
 
-class ShapeBase;
+class RectangleShape;
 class Edge;
 
 class DrawingScene : public QGraphicsScene
@@ -46,7 +46,7 @@ public:
 
     static DrawingScene* mStaticDrawingScene;
 
-    void addShape(ShapeBase *shape);
+    void addShape(RectangleShape *shape);
     void addEdge(Edge* edge);
 
     Avoid::Router* router() const;
@@ -55,13 +55,6 @@ public:
 private slots:
     void handleSelectionChange();
 
-#if 0
-protected:
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
-#endif
 
 private:
     Avoid::Router* mRouter;
