@@ -6,20 +6,20 @@
 namespace Utils
 {
 
-QPointF convertPoint(const Avoid::Point &point)
+QPointF toQPointF(const Avoid::Point &point)
 {
     return QPointF(point.x, point.y);
 }
 
-Avoid::Point convertPoint(const QPointF &point)
+Avoid::Point toAPoint(const QPointF &point)
 {
     return Avoid::Point(point.x(), point.y());
 }
 
-QRectF convertRectangle(const Avoid::Rectangle &rect)
+QRectF toQRectF(const Avoid::Rectangle &rect)
 {
     QRectF newRect;
-
+    //rect.
     newRect.setTopRight(QPointF(rect.at(0).x, rect.at(0).y));
     newRect.setBottomRight(QPointF(rect.at(1).x, rect.at(1).y));
     newRect.setBottomLeft(QPointF(rect.at(2).x, rect.at(2).y));
@@ -28,24 +28,19 @@ QRectF convertRectangle(const Avoid::Rectangle &rect)
     return newRect;
 }
 
-Avoid::Rectangle convertRectangle(const QRectF &rect)
+Avoid::Rectangle toARect(const QRectF &rect)
 {
-    QPointF topLeft = rect.topLeft();
-    QPointF bottomRight = rect.bottomRight();
-
-    return Avoid::Rectangle(
-        Avoid::Point(topLeft.x(), topLeft.y()),
-        Avoid::Point(bottomRight.x(), bottomRight.y()));
+    return Avoid::Rectangle(toAPoint(rect.topLeft()), toAPoint(rect.bottomRight()));
 }
 
 Avoid::Polygon convertPolygon(const QRectF &rect)
 {
     Avoid::Polygon newPolygon;
 
-    newPolygon.setPoint(0, convertPoint(rect.topRight()));
-    newPolygon.setPoint(1, convertPoint(rect.bottomRight()));
-    newPolygon.setPoint(2, convertPoint(rect.bottomLeft()));
-    newPolygon.setPoint(3, convertPoint(rect.topLeft()));
+    newPolygon.setPoint(0, toAPoint(rect.topRight()));
+    newPolygon.setPoint(1, toAPoint(rect.bottomRight()));
+    newPolygon.setPoint(2, toAPoint(rect.bottomLeft()));
+    newPolygon.setPoint(3, toAPoint(rect.topLeft()));
 
     return newPolygon;
 }
@@ -67,7 +62,7 @@ QPolygonF convertPolygon(const Avoid::Polygon &polygon)
     QPolygonF newPolygon;
 
     for (unsigned int idx = 0; idx < polygon.ps.size(); ++idx) {
-        newPolygon.push_back(convertPoint(polygon.at(idx)));
+        newPolygon.push_back(toQPointF(polygon.at(idx)));
     }
 
     return newPolygon;
@@ -88,16 +83,12 @@ QPainterPath convertPolyLine(const Avoid::PolyLine &polyline)
 
 QPainterPath makePainterPath(Avoid::ConnRef *connection)
 {
-    QPointF arrowStart, arrowEnd;
-
-    const Avoid::PolyLine displayRoute = connection->displayRoute();
-
-    Avoid::Point p = displayRoute.at(0);
+    const auto &displayRoute = connection->displayRoute();
+    const auto &ps = displayRoute.ps;
+    const auto &p = ps[0];
     QPainterPath path(QPointF(p.x, p.y));
-
-    for (size_t i = 0; i < displayRoute.size(); ++i) {
-        Avoid::Point point = displayRoute.at(i);
-        path.lineTo(QPointF(point.x, point.y));
+    for (auto &point : ps) {
+        path.lineTo(point.x, point.y);
     }
 
     return path;
@@ -134,6 +125,6 @@ QPolygonF createArrow(Avoid::ConnRef *connection)
     int size = route.size();
     Avoid::Point start = route.at(size - 2);
     Avoid::Point end = route.at(size - 1);
-    return createArrow(convertPoint(start), convertPoint(end));
+    return createArrow(toQPointF(start), toQPointF(end));
 }
 }

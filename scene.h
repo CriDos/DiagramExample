@@ -12,7 +12,7 @@ class Router;
 }
 
 class Node;
-class RouteLine;
+class PathLine;
 
 class Scene : public QGraphicsScene
 {
@@ -23,13 +23,11 @@ public:
 
     ~Scene();
 
-    void addShape(Node *shape);
-    void addEdge(RouteLine *edge);
+    void addNode(Node *node);
+    void addConnect(PathLine *edge);
     Avoid::Router *router() const;
 
-private slots:
-
 private:
-    Avoid::Router *mRouter;
+    Avoid::Router *m_router;
     static void handleConnectorCallback(void *context);
 };

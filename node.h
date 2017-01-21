@@ -21,9 +21,9 @@ public:
     Avoid::ConnEnd *connectionEnd() const;
 
 private:
-    Avoid::Router *mRouter;
-    Avoid::ShapeRef *mShapeRef;
-    Avoid::ShapeConnectionPin *mPin;
-    Avoid::ConnEnd *mConnEnd;
-    QRectF mRect;
+    Avoid::Router *m_router{};
+    Avoid::ShapeRef *m_shapeRef{};
+    Avoid::ShapeConnectionPin *m_pin{};
+    Avoid::ConnEnd *m_connEnd{};
+    QRectF m_rect;
 };

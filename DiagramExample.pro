@@ -19,13 +19,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     node.cpp \
     scene.cpp \
-    RouteLine.cpp \
-    utils.cpp
+    utils.cpp \
+    pathline.cpp
 
 HEADERS  += mainwindow.h \
     node.h \
     scene.h \
-    RouteLine.h \
-    utils.h
+    utils.h \
+    pathline.h
 
 FORMS    += mainwindow.ui

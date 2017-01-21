@@ -43,25 +43,24 @@ Node::Node(const QSize &size, Avoid::Router *router, QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
 
-    mRouter = router;
-    mShapeRef = nullptr;
-    mRect = QRectF(0, 0, size.width(), size.height());
-    Avoid::Rectangle rect = Utils::convertRectangle(mRect);
-    mShapeRef = new Avoid::ShapeRef(mRouter, rect);
+    m_router = router;
+    m_rect = QRectF(0, 0, size.width(), size.height());
+    Avoid::Rectangle rect = Utils::toARect(m_rect);
+    m_shapeRef = new Avoid::ShapeRef(m_router, rect);
 
-    mPin = new Avoid::ShapeConnectionPin(mShapeRef, 1,
-                                         Avoid::ATTACH_POS_CENTRE,
-                                         Avoid::ATTACH_POS_CENTRE, true,
-                                         0.0, Avoid::ConnDirAll);
+    m_pin = new Avoid::ShapeConnectionPin(m_shapeRef, 1,
+                                          Avoid::ATTACH_POS_CENTRE,
+                                          Avoid::ATTACH_POS_CENTRE, true,
+                                          0.0, Avoid::ConnDirAll);
 
-    mConnEnd = new Avoid::ConnEnd(mShapeRef, 1);
+    m_connEnd = new Avoid::ConnEnd(m_shapeRef, 1);
 
     setZValue(1);
 }
 
 QRectF Node::boundingRect() const
 {
-    return QRectF(mRect);
+    return m_rect;
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -71,24 +70,15 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 
     painter->save();
     painter->setPen(QColor("white"));
-    painter->drawRect(mRect);
+    painter->drawRect(m_rect);
     painter->restore();
 }
 
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        QPointF newPos = value.toPointF();
-
-        qreal w = mRect.width();
-        qreal h = mRect.height();
-        qreal x = newPos.x() + (w / 2);
-        qreal y = newPos.y() + (h / 2);
-
-        Avoid::Rectangle poly(Avoid::Point(x, y), w, h);
-
-        mRouter->moveShape(mShapeRef, poly);
-        mRouter->processTransaction();
+        m_router->moveShape(m_shapeRef, Utils::toARect(QRectF(value.toPointF(), m_rect.size())));
+        m_router->processTransaction();
     }
 
     return QGraphicsItem::itemChange(change, value);
@@ -96,5 +86,5 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
 
 Avoid::ConnEnd *Node::connectionEnd() const
 {
-    return mConnEnd;
+    return m_connEnd;
 }

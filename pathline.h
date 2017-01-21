@@ -15,14 +15,14 @@ class Router;
 
 class Node;
 
-class RouteLine : public QGraphicsItem
+class PathLine : public QGraphicsItem
 {
 public:
-    RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
+    PathLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
 
-    virtual QPainterPath shape() const;
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual QPainterPath shape() const override;
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
 
     void updatePath();
 

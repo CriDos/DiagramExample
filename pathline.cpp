@@ -6,11 +6,11 @@
 #include <libavoid/connector.h>
 #include <libavoid/router.h>
 
-#include "RouteLine.h"
+#include "pathline.h"
 #include "node.h"
 #include "utils.h"
 
-RouteLine::RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent)
+PathLine::PathLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_router(router)
     , m_src(src)
@@ -23,17 +23,17 @@ RouteLine::RouteLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem 
     setZValue(-1);
 }
 
-QPainterPath RouteLine::shape() const
+QPainterPath PathLine::shape() const
 {
-    return Utils::makePainterPath(m_connRef);
+    return m_path;
 }
 
-QRectF RouteLine::boundingRect() const
+QRectF PathLine::boundingRect() const
 {
-    return m_path.boundingRect();
+    return shape().boundingRect();
 }
 
-void RouteLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -43,36 +43,38 @@ void RouteLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(Qt::green);
     painter->drawPath(m_path);
 
+    qInfo() << m_path;
+
     painter->restore();
 }
 
-void RouteLine::updatePath()
+void PathLine::updatePath()
 {
     m_path = Utils::makePainterPath(m_connRef);
     scene()->update();
 }
 
-Node *RouteLine::source() const
+Node *PathLine::source() const
 {
     return m_src;
 }
 
-void RouteLine::setSource(Node *shape)
+void PathLine::setSource(Node *shape)
 {
     m_src = shape;
 }
 
-Node *RouteLine::destination() const
+Node *PathLine::destination() const
 {
     return m_dst;
 }
 
-void RouteLine::setDestination(Node *shape)
+void PathLine::setDestination(Node *shape)
 {
     m_dst = shape;
 }
 
-Avoid::ConnRef *RouteLine::connection() const
+Avoid::ConnRef *PathLine::connection() const
 {
     return m_connRef;
 }
