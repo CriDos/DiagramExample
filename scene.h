@@ -24,7 +24,7 @@ public:
     ~Scene();
 
     void addNode(Node *node);
-    void addConnect(PathLine *edge);
+    void addConnect(PathLine *pathLine);
     Avoid::Router *router() const;
 
 private:
