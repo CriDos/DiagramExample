@@ -31,6 +31,5 @@ private slots:
 
 private:
     Avoid::Router *mRouter;
-    void makeRouter_p();
-    static void handleConnectorCallback_p(void *context);
+    static void handleConnectorCallback(void *context);
 };

@@ -7,12 +7,8 @@
 
 class Scene;
 
-namespace Avoid
+namespace Ui
 {
-    class ConnRef;
-}
-
-namespace Ui {
 class MainWindow;
 }
 
@@ -28,10 +24,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    Scene* m_scene;
-
-    Avoid::ConnRef* mConnRef;
-
-    QGraphicsPathItem* mPathItem;
+    Scene *m_scene;
 };

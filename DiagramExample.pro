@@ -7,6 +7,7 @@
 include(libavoid/libavoid.pri)
 
 QT       += core gui
+CONFIG += c++14z
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

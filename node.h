@@ -54,7 +54,7 @@ public:
 
 
 signals:
-    void shapeMoved();
+    void onNodeMoved();
 
 private:
     Avoid::Router* mRouter;

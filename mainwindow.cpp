@@ -37,7 +37,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , mPathItem(0)
 {
     ui->setupUi(this);
 
@@ -45,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_scene = new Scene(this);
     ui->graphicsView->setScene(m_scene);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
-    //ui->graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 
     Node *mri1 = new Node(QSize(40, 40), m_scene->router());
     m_scene->addShape(mri1);
@@ -68,4 +66,3 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-

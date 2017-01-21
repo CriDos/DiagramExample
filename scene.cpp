@@ -33,7 +33,12 @@ Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
     setSceneRect(0, 0, 500, 500);
-    makeRouter_p();
+    mRouter = new Avoid::Router(Avoid::OrthogonalRouting);
+    //mRouter = new Avoid::Router(Avoid::PolyLineRouting);
+    //mRouter->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
+    //mRouter->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
+    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
+    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
 }
 
 Scene::~Scene()
@@ -41,7 +46,7 @@ Scene::~Scene()
     delete mRouter;
 }
 
-void Scene::handleConnectorCallback_p(void *context)
+void Scene::handleConnectorCallback(void *context)
 {
     RouteLine *edge = static_cast<RouteLine *>(context);
     edge->update();
@@ -54,7 +59,7 @@ void Scene::addShape(Node *shape)
 
 void Scene::addEdge(RouteLine *edge)
 {
-    edge->connection()->setCallback(&handleConnectorCallback_p, (void *)edge);
+    edge->connection()->setCallback(&handleConnectorCallback, reinterpret_cast<void *>(edge));
     addItem(edge);
 }
 
@@ -63,12 +68,3 @@ Avoid::Router *Scene::router() const
     return mRouter;
 }
 
-void Scene::makeRouter_p()
-{
-    //mRouter = new Avoid::Router(Avoid::OrthogonalRouting);
-    mRouter = new Avoid::Router(Avoid::PolyLineRouting);
-    mRouter->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
-    mRouter->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
-    mRouter->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
-    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
-}

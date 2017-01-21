@@ -105,7 +105,7 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
         mRouter->moveShape(mShapeRef, newAvoidRect);
         mRouter->processTransaction();
 
-        emit shapeMoved();
+        emit onNodeMoved();
 
         return newPos;
     }
