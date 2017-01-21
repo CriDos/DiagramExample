@@ -14,11 +14,11 @@ QPointF toQPointF(const Avoid::Point &point);
 Avoid::Point toAPoint(const QPointF &point);
 QRectF toQRectF(const Avoid::Rectangle &rect);
 Avoid::Rectangle toARect(const QRectF &rect);
-Avoid::Polygon convertPolygon(const QRectF &rect);
-Avoid::Polygon convertPolygon(const QPolygonF &polygon);
-QPolygonF convertPolygon(const Avoid::Polygon &polygon);
-QPainterPath convertPolyLine(const Avoid::PolyLine &polyline);
-QPainterPath makePainterPath(Avoid::ConnRef *connection);
-QPolygonF createArrow(const QPointF &start, const QPointF &end);
-QPolygonF createArrow(Avoid::ConnRef *connection);
+Avoid::Polygon toAPolygon(const QRectF &rect);
+Avoid::Polygon toAPolygon(const QPolygonF &polygon);
+QPolygonF toQPolygon(const Avoid::Polygon &polygon);
+QPainterPath toQPainterPath(const Avoid::PolyLine &polyline);
+QPainterPath makeQPainterPath(Avoid::ConnRef *connection);
+QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end);
+QPolygonF makeQPolygonF(Avoid::ConnRef *connection);
 }

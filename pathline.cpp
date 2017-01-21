@@ -19,7 +19,7 @@ PathLine::PathLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *p
 {
     m_connRef = new Avoid::ConnRef(m_router, *(m_src->connectionEnd()), *(m_dst->connectionEnd()));
     m_router->processTransaction();
-    m_path = Utils::makePainterPath(m_connRef);
+    m_path = Utils::makeQPainterPath(m_connRef);
     setZValue(-1);
 }
 
@@ -50,7 +50,7 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void PathLine::updatePath()
 {
-    m_path = Utils::makePainterPath(m_connRef);
+    m_path = Utils::makeQPainterPath(m_connRef);
     scene()->update();
 }
 
