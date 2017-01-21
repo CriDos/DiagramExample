@@ -35,7 +35,6 @@ DrawingScene::DrawingScene(QObject* parent) :
     QGraphicsScene(parent)
 {
     makeRouter_p();
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(handleSelectionChange()));
     DrawingScene::mStaticDrawingScene = this;
 }
 
@@ -43,7 +42,6 @@ DrawingScene::DrawingScene(const QRectF& sceneRect, QObject* parent) :
     QGraphicsScene(sceneRect, parent)
 {
     makeRouter_p();
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(handleSelectionChange()));
     DrawingScene::mStaticDrawingScene = this;
 }
 
@@ -51,7 +49,6 @@ DrawingScene::DrawingScene(qreal x, qreal y, qreal width, qreal height, QObject*
     QGraphicsScene(x, y, width, height, parent)
 {
     makeRouter_p();
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(handleSelectionChange()));
     DrawingScene::mStaticDrawingScene = this;
 }
 
@@ -82,16 +79,6 @@ Avoid::Router *DrawingScene::router() const
    return mRouter;
 }
 
-void DrawingScene::drawDiagram()
-{
-
-}
-
-void DrawingScene::handleSelectionChange()
-{
-
-}
-
 void DrawingScene::makeRouter_p()
 {
     //mRouter = new Avoid::Router(Avoid::OrthogonalRouting);
@@ -101,27 +88,3 @@ void DrawingScene::makeRouter_p()
     mRouter->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
     //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
 }
-
-
-#if 0
-void DrawingScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
-}
-
-void DrawingScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    QGraphicsScene::mouseMoveEvent(mouseEvent);
-}
-
-void DrawingScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    QGraphicsScene::mousePressEvent(mouseEvent);
-}
-
-void DrawingScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    QGraphicsScene::mouseReleaseEvent(mouseEvent);
-}
-
-#endif

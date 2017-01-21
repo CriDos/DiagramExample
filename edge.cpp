@@ -55,7 +55,6 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    prepareGeometryChange();
     mPath = makePainterPath(mConnRef);
     painter->setPen(mPen);
     painter->drawPath(mPath);

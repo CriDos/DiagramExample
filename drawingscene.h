@@ -1,23 +1,4 @@
-/*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*
-* Copyright (C) 2016  Mark E. Wilson
-*
-*/
-
-#ifndef DRAWINGSCENE_H
-#define DRAWINGSCENE_H
+#pragma once
 
 #include <QObject>
 #include <QRectF>
@@ -50,10 +31,8 @@ public:
     void addEdge(Edge* edge);
 
     Avoid::Router* router() const;
-    void drawDiagram();
 
 private slots:
-    void handleSelectionChange();
 
 
 private:
@@ -62,5 +41,3 @@ private:
     void makeRouter_p();
     static void handleConnectorCallback_p(void* context);
 };
-
-#endif // DRAWINGSCENE_H
