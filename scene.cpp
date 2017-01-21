@@ -32,7 +32,6 @@
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    setSceneRect(0, 0, 500, 500);
     m_router = new Avoid::Router(Avoid::PolyLineRouting);
     //mRouter = new Avoid::Router(Avoid::PolyLineRouting);
     m_router->setRoutingParameter(Avoid::shapeBufferDistance, 10.0);
