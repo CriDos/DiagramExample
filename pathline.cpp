@@ -12,7 +12,8 @@ PathLine::PathLine(QRouterConnect *connect, QGraphicsItem *parent)
 {
     m_connect = connect;
 
-    m_path = QRouter::toQPainterPath(m_connect->connRef->displayRoute());
+    m_path = QRouter::makeQPainterPath(connect->connRef);
+
     setZValue(-1);
 }
 
