@@ -9,6 +9,18 @@ QRouter::QRouter()
     setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
+QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
+{
+    QRouterConnect *node = new QRouterConnect();
+
+    Avoid::ConnEnd dstEnd(src->shapeRef, 1);
+    Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
+    node->connRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
+    node->connRef->setCallback(handleConnectorCallback, node);
+
+    return node;
+}
+
 void QRouter::handleConnectorCallback(void *context)
 {
     PathLine *edge = static_cast<PathLine *>(context);

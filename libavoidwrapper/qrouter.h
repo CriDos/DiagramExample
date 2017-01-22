@@ -13,10 +13,20 @@
 #include <QPolygonF>
 #include <QPainterPath>
 
+struct QRouterNode {
+    Avoid::ConnRef *connRef{};
+    Avoid::ShapeRef *shapeRef{};
+};
+struct QRouterConnect {
+    Avoid::ConnRef *connRef{};
+    Avoid::ShapeRef *shapeRef{};
+};
+
 class QRouter : public Avoid::Router
 {
 public:
     QRouter();
+    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
 
 public:
     static void handleConnectorCallback(void *context);
