@@ -14,14 +14,16 @@
 #include "qrouter.h"
 #include "node.h"
 
-Node::Node(const QSize &size, QGraphicsItem *parent)
+Node::Node(QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
 
-    m_rect = QRectF(0, 0, size.width(), size.height());
+    m_rect = QRectF(0, 0, 40, 40);
+    m_router = router;
+    m_routerNode = m_router->createNode(this);
 
     setZValue(1);
 }
@@ -50,4 +52,14 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
     }
 
     return QGraphicsItem::itemChange(change, value);
+}
+
+QRectF Node::rect() const
+{
+    return m_rect;
+}
+
+QRouterNode *Node::routerNode() const
+{
+    return m_routerNode;
 }

@@ -18,15 +18,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(m_scene);
     //ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
-    Node *mri1 = new Node(QSize(40, 40));
+    Node *mri1 = new Node(m_scene->router());
     m_scene->addNode(mri1);
     mri1->setPos(47, 60);
 
-    Node *mri2 = new Node(QSize(40, 40));
+    Node *mri2 = new Node(m_scene->router());
     m_scene->addNode(mri2);
     mri2->setPos(100, 110);
 
-    Node *mri3 = new Node(QSize(40, 40));
+    Node *mri3 = new Node(m_scene->router());
     m_scene->addNode(mri3);
     mri3->setPos(200, 110);
 

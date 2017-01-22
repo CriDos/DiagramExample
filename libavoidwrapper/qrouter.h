@@ -13,8 +13,9 @@
 #include <QPolygonF>
 #include <QPainterPath>
 
+class Node;
+
 struct QRouterNode {
-    Avoid::ConnRef *connRef{};
     Avoid::ShapeRef *shapeRef{};
 };
 struct QRouterConnect {
@@ -26,6 +27,7 @@ class QRouter : public Avoid::Router
 {
 public:
     QRouter();
+    QRouterNode *createNode(Node *node);
     QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
 
 public:

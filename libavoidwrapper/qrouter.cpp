@@ -1,6 +1,8 @@
 #include "qrouter.h"
 #include "pathline.h"
 
+#include <node.h>
+
 QRouter::QRouter()
     : Router(Avoid::OrthogonalRouting)
 {
@@ -9,16 +11,26 @@ QRouter::QRouter()
     setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
+QRouterNode *QRouter::createNode(Node *node)
+{
+    QRouterNode *rnode = new QRouterNode();
+    Avoid::Rectangle rect = toARect(node->rect());
+    rnode->shapeRef = new Avoid::ShapeRef(this, rect);
+    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+
+    return rnode;
+}
+
 QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
 {
-    QRouterConnect *node = new QRouterConnect();
+    QRouterConnect *connect = new QRouterConnect();
 
     Avoid::ConnEnd dstEnd(src->shapeRef, 1);
     Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
-    node->connRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
-    node->connRef->setCallback(handleConnectorCallback, node);
+    connect->connRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
+    connect->connRef->setCallback(handleConnectorCallback, connect);
 
-    return node;
+    return connect;
 }
 
 void QRouter::handleConnectorCallback(void *context)
