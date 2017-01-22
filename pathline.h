@@ -10,9 +10,8 @@ namespace Avoid
 class ConnEnd;
 class ConnRef;
 class ShapeRef;
-class QRouter;
 }
-
+class QRouter;
 class Node;
 
 class PathLine : public QGraphicsItem
@@ -25,12 +24,6 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0) override;
 
     void updatePath();
-
-    Node *source() const;
-    void setSource(Node *shape);
-
-    Node *destination() const;
-    void setDestination(Node *shape);
 
     Avoid::ConnRef *connection() const;
 

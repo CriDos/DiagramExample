@@ -51,26 +51,6 @@ void PathLine::updatePath()
     scene()->update();
 }
 
-Node *PathLine::source() const
-{
-    return m_src;
-}
-
-void PathLine::setSource(Node *shape)
-{
-    m_src = shape;
-}
-
-Node *PathLine::destination() const
-{
-    return m_dst;
-}
-
-void PathLine::setDestination(Node *shape)
-{
-    m_dst = shape;
-}
-
 Avoid::ConnRef *PathLine::connection() const
 {
     return m_connRef;

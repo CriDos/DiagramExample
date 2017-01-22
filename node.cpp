@@ -25,12 +25,10 @@ Node::Node(const QSize &size, QRouter *router, QGraphicsItem *parent)
     m_rect = QRectF(0, 0, size.width(), size.height());
     Avoid::Rectangle rect = QRouter::toARect(m_rect);
     m_shapeRef = new Avoid::ShapeRef(m_router, rect);
-
     m_pin = new Avoid::ShapeConnectionPin(m_shapeRef, 1,
                                           Avoid::ATTACH_POS_CENTRE,
                                           Avoid::ATTACH_POS_CENTRE, true,
                                           0.0, Avoid::ConnDirAll);
-
     m_connEnd = new Avoid::ConnEnd(m_shapeRef, 1);
 
     setZValue(1);
