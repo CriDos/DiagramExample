@@ -10,6 +10,9 @@
 namespace Avoid
 {
 class QRouter;
+class ShapeRef;
+class ConnEnd;
+class ShapeConnectionPin;
 }
 
 class Node : public QGraphicsItem
