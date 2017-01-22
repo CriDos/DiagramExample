@@ -8,7 +8,7 @@ class ShapeBase;
 
 namespace Avoid
 {
-class Router;
+class QRouter;
 }
 
 class Node;
@@ -25,9 +25,9 @@ public:
 
     void addNode(Node *node);
     void addConnect(PathLine *pathLine);
-    Avoid::Router *router() const;
+    Avoid::QRouter *router() const;
 
 private:
-    Avoid::Router *m_router;
+    Avoid::QRouter *m_router;
     static void handleConnectorCallback(void *context);
 };

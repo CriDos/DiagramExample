@@ -2,10 +2,7 @@
 #include <QList>
 #include <QListIterator>
 
-#include <libavoid/router.h>
-#include <libavoid/shape.h>
-#include <libavoid/connend.h>
-#include <libavoid/connector.h>
+#include "libavoid/qrouter.h"
 
 #include "scene.h"
 #include "node.h"
@@ -14,12 +11,7 @@
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    //m_router = new Avoid::Router(Avoid::PolyLineRouting);
-    m_router = new Avoid::Router(Avoid::OrthogonalRouting);
-    m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
-    m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
-    m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
-    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
+    m_router = new Avoid::QRouter();
 }
 
 Scene::~Scene()
@@ -44,7 +36,7 @@ void Scene::addConnect(PathLine *pathLine)
     addItem(pathLine);
 }
 
-Avoid::Router *Scene::router() const
+Avoid::QRouter *Scene::router() const
 {
     return m_router;
 }

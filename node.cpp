@@ -29,14 +29,13 @@
 #include <QPen>
 #include <QBrush>
 
-#include <libavoid/router.h>
-#include <libavoid/shape.h>
+#include "libavoid/qrouter.h"
 
 #include "utils.h"
 
 #include "node.h"
 
-Node::Node(const QSize &size, Avoid::Router *router, QGraphicsItem *parent)
+Node::Node(const QSize &size, Avoid::QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);

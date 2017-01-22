@@ -10,7 +10,7 @@ namespace Avoid
 class ConnEnd;
 class ConnRef;
 class ShapeRef;
-class Router;
+class QRouter;
 }
 
 class Node;
@@ -18,7 +18,7 @@ class Node;
 class PathLine : public QGraphicsItem
 {
 public:
-    PathLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
+    PathLine(Avoid::QRouter *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
 
     virtual QPainterPath shape() const override;
     QRectF boundingRect() const override;
@@ -35,7 +35,7 @@ public:
     Avoid::ConnRef *connection() const;
 
 private:
-    Avoid::Router *m_router;
+    Avoid::QRouter *m_router;
     QPainterPath m_path;
 
     Node *m_src;

@@ -10,7 +10,7 @@
 #include "node.h"
 #include "utils.h"
 
-PathLine::PathLine(Avoid::Router *router, Node *src, Node *dst, QGraphicsItem *parent)
+PathLine::PathLine(Avoid::QRouter *router, Node *src, Node *dst, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_router(router)
     , m_src(src)

@@ -34,7 +34,8 @@ HEADERS += libavoid/actioninfo.h \
            libavoid/vertices.h \
            libavoid/viscluster.h \
            libavoid/visibility.h \
-           libavoid/vpsc.h
+           libavoid/vpsc.h \
+    $$PWD/qrouter.h
 SOURCES += libavoid/actioninfo.cpp \
            libavoid/connectionpin.cpp \
            libavoid/connector.cpp \
@@ -57,4 +58,5 @@ SOURCES += libavoid/actioninfo.cpp \
            libavoid/vertices.cpp \
            libavoid/viscluster.cpp \
            libavoid/visibility.cpp \
-           libavoid/vpsc.cpp
+           libavoid/vpsc.cpp \
+    $$PWD/qrouter.cpp
