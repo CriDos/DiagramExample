@@ -30,8 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_scene->addNode(mri3);
     mri3->setPos(200, 110);
 
-    //PathLine *edge1 = new PathLine(, mri1, mri2);
-    //m_scene->addConnect(edge1);
+    m_scene->addConnect(mri1, mri2);
 }
 
 MainWindow::~MainWindow()

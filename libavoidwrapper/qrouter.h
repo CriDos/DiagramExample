@@ -20,7 +20,6 @@ struct QRouterNode {
 };
 struct QRouterConnect {
     Avoid::ConnRef *connRef{};
-    Avoid::ShapeRef *shapeRef{};
 };
 
 class QRouter : public Avoid::Router
