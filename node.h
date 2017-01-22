@@ -7,9 +7,10 @@
 #include <QBrush>
 #include <QGraphicsItem>
 
+class QRouter;
+
 namespace Avoid
 {
-class QRouter;
 class ShapeRef;
 class ConnEnd;
 class ShapeConnectionPin;
@@ -19,7 +20,7 @@ class Node : public QGraphicsItem
 {
 
 public:
-    Node(const QSize &size, Avoid::QRouter *router, QGraphicsItem *parent = 0);
+    Node(const QSize &size, QRouter *router, QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QVariant itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value);
@@ -27,7 +28,7 @@ public:
     Avoid::ConnEnd *connectionEnd() const;
 
 private:
-    Avoid::QRouter *m_router{};
+    QRouter *m_router{};
     Avoid::ShapeRef *m_shapeRef{};
     Avoid::ShapeConnectionPin *m_pin{};
     Avoid::ConnEnd *m_connEnd{};

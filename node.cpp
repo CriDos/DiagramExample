@@ -12,12 +12,9 @@
 #include <QBrush>
 
 #include "qrouter.h"
-
-#include "utils.h"
-
 #include "node.h"
 
-Node::Node(const QSize &size, Avoid::QRouter *router, QGraphicsItem *parent)
+Node::Node(const QSize &size, QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -26,7 +23,7 @@ Node::Node(const QSize &size, Avoid::QRouter *router, QGraphicsItem *parent)
 
     m_router = router;
     m_rect = QRectF(0, 0, size.width(), size.height());
-    Avoid::Rectangle rect = Utils::toARect(m_rect);
+    Avoid::Rectangle rect = QRouter::toARect(m_rect);
     m_shapeRef = new Avoid::ShapeRef(m_router, rect);
 
     m_pin = new Avoid::ShapeConnectionPin(m_shapeRef, 1,
@@ -58,7 +55,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        m_router->moveShape(m_shapeRef, Utils::toARect(QRectF(value.toPointF(), m_rect.size())));
+        m_router->moveShape(m_shapeRef, QRouter::toARect(QRectF(value.toPointF(), m_rect.size())));
         m_router->processTransaction();
     }
 

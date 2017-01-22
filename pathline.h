@@ -18,7 +18,7 @@ class Node;
 class PathLine : public QGraphicsItem
 {
 public:
-    PathLine(Avoid::QRouter *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
+    PathLine(QRouter *router, Node *src, Node *dst, QGraphicsItem *parent = 0);
 
     virtual QPainterPath shape() const override;
     QRectF boundingRect() const override;
@@ -35,7 +35,7 @@ public:
     Avoid::ConnRef *connection() const;
 
 private:
-    Avoid::QRouter *m_router;
+    QRouter *m_router;
     QPainterPath m_path;
 
     Node *m_src;

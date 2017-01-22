@@ -11,18 +11,12 @@
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    m_router = new Avoid::QRouter();
+    m_router = new QRouter();
 }
 
 Scene::~Scene()
 {
     delete m_router;
-}
-
-void Scene::handleConnectorCallback(void *context)
-{
-    PathLine *edge = static_cast<PathLine *>(context);
-    edge->updatePath();
 }
 
 void Scene::addNode(Node *node)
@@ -32,11 +26,11 @@ void Scene::addNode(Node *node)
 
 void Scene::addConnect(PathLine *pathLine)
 {
-    pathLine->connection()->setCallback(&handleConnectorCallback, reinterpret_cast<void *>(pathLine));
+    pathLine->connection()->setCallback(&QRouter::handleConnectorCallback, reinterpret_cast<void *>(pathLine));
     addItem(pathLine);
 }
 
-Avoid::QRouter *Scene::router() const
+QRouter *Scene::router() const
 {
     return m_router;
 }

@@ -4,12 +4,10 @@
 #include <QGraphicsScene>
 
 #include "qrouter.h"
-
 #include "pathline.h"
 #include "node.h"
-#include "utils.h"
 
-PathLine::PathLine(Avoid::QRouter *router, Node *src, Node *dst, QGraphicsItem *parent)
+PathLine::PathLine(QRouter *router, Node *src, Node *dst, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_router(router)
     , m_src(src)
@@ -18,7 +16,7 @@ PathLine::PathLine(Avoid::QRouter *router, Node *src, Node *dst, QGraphicsItem *
 {
     m_connRef = new Avoid::ConnRef(m_router, *(m_src->connectionEnd()), *(m_dst->connectionEnd()));
     m_router->processTransaction();
-    m_path = Utils::makeQPainterPath(m_connRef);
+    m_path = QRouter::makeQPainterPath(m_connRef);
     setZValue(-1);
 }
 
@@ -49,7 +47,7 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void PathLine::updatePath()
 {
-    m_path = Utils::makeQPainterPath(m_connRef);
+    m_path = QRouter::makeQPainterPath(m_connRef);
     scene()->update();
 }
 

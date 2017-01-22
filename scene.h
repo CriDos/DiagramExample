@@ -5,12 +5,7 @@
 #include <QGraphicsScene>
 
 class ShapeBase;
-
-namespace Avoid
-{
 class QRouter;
-}
-
 class Node;
 class PathLine;
 
@@ -25,9 +20,9 @@ public:
 
     void addNode(Node *node);
     void addConnect(PathLine *pathLine);
-    Avoid::QRouter *router() const;
+    QRouter *router() const;
 
 private:
-    Avoid::QRouter *m_router;
-    static void handleConnectorCallback(void *context);
+    QRouter *m_router;
+
 };

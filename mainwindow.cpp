@@ -13,7 +13,6 @@
 #include "scene.h"
 #include "ui_mainwindow.h"
 #include "node.h"
-#include "utils.h"
 #include "pathline.h"
 
 MainWindow::MainWindow(QWidget *parent)
