@@ -5,8 +5,8 @@
 #include <QPolygonF>
 #include <QPainterPath>
 
-#include <libavoid/geomtypes.h>
-#include <libavoid/connector.h>
+#include "libavoid/geomtypes.h"
+#include "libavoid/connector.h"
 
 namespace Utils
 {

@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 
-#include "libavoid/qrouter.h"
+#include "qrouter.h"
 
 #include "pathline.h"
 #include "node.h"

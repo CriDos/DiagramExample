@@ -2,7 +2,7 @@
 #include <QList>
 #include <QListIterator>
 
-#include "libavoid/qrouter.h"
+#include "qrouter.h"
 
 #include "scene.h"
 #include "node.h"
