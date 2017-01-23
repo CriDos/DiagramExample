@@ -22,20 +22,20 @@ QRouterNode *QRouter::createNode(Node *node)
     return rnode;
 }
 
-QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest, QGraphicsScene *scene)
+QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest, PathLine *pathLine)
 {
     Avoid::ConnEnd dstEnd(src->shapeRef, 1);
     Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
     QRouterConnect *connect = new Avoid::ConnRef(this, srcEnd, dstEnd);
-    connect->setCallback(handleConnectorCallback, scene);
+    connect->setCallback(handleConnectorCallback, pathLine);
 
     return connect;
 }
 
 void QRouter::handleConnectorCallback(void *context)
 {
-    QGraphicsScene *edge = static_cast<QGraphicsScene *>(context);
-    edge->update();
+    PathLine *edge = static_cast<PathLine *>(context);
+    edge->updatePath();
 }
 
 QPointF QRouter::toQPointF(const Avoid::Point &point)

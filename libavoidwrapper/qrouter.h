@@ -12,9 +12,9 @@
 #include <QPointF>
 #include <QPolygonF>
 #include <QPainterPath>
-#include <QGraphicsScene>
 
 class Node;
+class PathLine;
 
 struct QRouterNode {
     Avoid::ShapeRef *shapeRef{};
@@ -28,7 +28,7 @@ class QRouter : public Avoid::Router
 public:
     QRouter();
     QRouterNode *createNode(Node *node);
-    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest, QGraphicsScene *scene);
+    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest, PathLine *pathLine);
 
 public:
     static void handleConnectorCallback(void *context);

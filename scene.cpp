@@ -24,9 +24,7 @@ void Scene::addNode(Node *node)
 
 void Scene::addConnect(Node *src, Node *dest)
 {
-    QRouterConnect *connect = m_router->createConnect(src->routerNode(), dest->routerNode(), this);
-
-    auto pathLine = new PathLine(connect, m_router);
+    auto pathLine = new PathLine(src, dest, m_router);
     addItem(pathLine);
 }
 
