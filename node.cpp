@@ -23,7 +23,6 @@ Node::Node(QRouter *router, QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     m_rect = QRectF(0, 0, 40, 40);
-
     m_routerNode = m_router->createNode(this);
 
     setZValue(1);
@@ -48,8 +47,8 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        m_router->moveShape(m_routerNode->shapeRef, QRouter::toARect(QRectF(value.toPointF(), m_rect.size())));
-        m_router->processTransaction();
+        m_router->moveShape(m_routerNode, QRectF(value.toPointF(), m_rect.size()));
+        m_router->reroute();
     }
 
     return QGraphicsItem::itemChange(change, value);

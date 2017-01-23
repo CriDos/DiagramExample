@@ -16,21 +16,18 @@
 class Node;
 class PathLine;
 
-struct QRouterNode {
-    Avoid::ShapeRef *shapeRef{};
-    Avoid::ConnEnd *connEnd{};
-};
-
-struct QRouterConnect {
-    Avoid::ConnRef *shapeRef{};
-};
-
-class QRouter : public Avoid::Router
+class QRouter
 {
+private:
+    Avoid::Router *m_router{};
+
 public:
     QRouter();
-    QRouterNode *createNode(Node *node);
-    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
+    struct QRouterNode *createNode(Node *node);
+    struct QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
+    Avoid::Router *router() const;
+    void reroute();
+    void moveShape(QRouterNode *node, QRectF rect);
 
 public:
     static void handleConnectorCallback(void *context);
@@ -45,4 +42,18 @@ public:
     static QPainterPath makeQPainterPath(Avoid::ConnRef *connection);
     static QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end);
     static QPolygonF makeQPolygonF(Avoid::ConnRef *connection);
+};
+
+struct QRouterNode {
+    Avoid::ShapeRef *shapeRef{};
+    Avoid::ConnEnd *connEnd{};
+};
+
+struct QRouterConnect {
+    Avoid::ConnRef *shapeRef{};
+
+    void setCallback(PathLine *pathLine)
+    {
+        shapeRef->setCallback(QRouter::handleConnectorCallback, pathLine);
+    }
 };

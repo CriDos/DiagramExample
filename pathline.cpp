@@ -12,8 +12,7 @@ PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent
 {
     m_router = router;
     m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
-
-    m_router->processTransaction();
+    m_router->reroute();
     m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
     m_connect->shapeRef->setCallback(QRouter::handleConnectorCallback, this);
 

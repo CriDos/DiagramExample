@@ -4,18 +4,19 @@
 #include <node.h>
 
 QRouter::QRouter()
-    : Router(Avoid::OrthogonalRouting)
 {
-    setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
-    setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
-    setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
+    m_router = new Avoid::Router(Avoid::OrthogonalRouting);
+
+    m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
+    m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
+    m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
 QRouterNode *QRouter::createNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
     QRouterNode *rnode = new QRouterNode();
-    rnode->shapeRef = new Avoid::ShapeRef(this, rect);
+    rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
     rnode->connEnd = new Avoid::ConnEnd(rnode->shapeRef, 1);
     new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
@@ -27,8 +28,23 @@ QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
     QRouterConnect *connect = new QRouterConnect();
     Avoid::ConnEnd srcEnd(src->shapeRef, 1);
     Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
-    connect->shapeRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
+    connect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
     return connect;
+}
+
+Avoid::Router *QRouter::router() const
+{
+    return m_router;
+}
+
+void QRouter::reroute()
+{
+    m_router->processTransaction();
+}
+
+void QRouter::moveShape(QRouterNode *node, QRectF rect)
+{
+    m_router->moveShape(node->shapeRef, QRouter::toARect(rect));
 }
 
 void QRouter::handleConnectorCallback(void *context)
