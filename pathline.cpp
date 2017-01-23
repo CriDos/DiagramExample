@@ -22,7 +22,7 @@ PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent
 
 QPainterPath PathLine::shape() const
 {
-    return QRouter::makeQPainterPath(m_connect);
+    return m_path;
 }
 
 QRectF PathLine::boundingRect() const
