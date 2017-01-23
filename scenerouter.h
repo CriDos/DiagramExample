@@ -1,5 +1,8 @@
 #pragma once
 
+#include "connect.h"
+#include "node.h"
+
 #include "libavoid/libavoid.h"
 #include "libavoid/connend.h"
 #include "libavoid/connector.h"
@@ -15,20 +18,23 @@
 
 struct RouterConnect;
 struct RouterNode;
-class Node;
 
 class SceneRouter
 {
 private:
     Avoid::Router *m_router{};
+    QMap<Node *, RouterNode *> m_nodes;
+    QMap<Connect *, RouterConnect *> m_connects;
 
 public:
     SceneRouter();
-    RouterNode *createNode(Node *node);
-    RouterConnect *createConnect(RouterNode *src, RouterNode *dest);
+    void addNode(Node *node);
+    void addConnect(Node *src, Node *dest, Connect *connect);
     Avoid::Router *router() const;
     void reroute();
-    void moveShape(RouterNode *node, QRectF rect);
+    void moveShape(Node *node, QRectF rect);
+    QPainterPath getPainterPath(Connect *connect);
+    void setCallback(Connect *connect);
 
 public:
     static void handleConnect(void *context);

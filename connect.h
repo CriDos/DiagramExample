@@ -6,7 +6,7 @@
 #include <QPen>
 
 class SceneRouter;
-class RouterConnect;
+struct RouterConnect;
 class Node;
 
 class Connect : public QGraphicsItem
@@ -22,5 +22,4 @@ public:
 private:
     QPainterPath m_path;
     SceneRouter *m_router{};
-    RouterConnect *m_connect{};
 };

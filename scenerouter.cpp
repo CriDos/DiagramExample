@@ -12,23 +12,23 @@ SceneRouter::SceneRouter()
     m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
-RouterNode *SceneRouter::createNode(Node *node)
+void SceneRouter::addNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
     RouterNode *rnode = new RouterNode();
     rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
     new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
-    return rnode;
+    m_nodes[node] = rnode;
 }
 
-RouterConnect *SceneRouter::createConnect(RouterNode *src, RouterNode *dest)
+void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)
 {
-    RouterConnect *connect = new RouterConnect();
-    Avoid::ConnEnd srcEnd(src->shapeRef, 1);
-    Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
-    connect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
-    return connect;
+    RouterConnect *rconnect = new RouterConnect();
+    Avoid::ConnEnd srcEnd(m_nodes[src]->shapeRef, 1);
+    Avoid::ConnEnd dstEnd(m_nodes[dest]->shapeRef, 1);
+    rconnect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
+    m_connects[connect] = rconnect;
 }
 
 Avoid::Router *SceneRouter::router() const
@@ -41,15 +41,25 @@ void SceneRouter::reroute()
     m_router->processTransaction();
 }
 
-void SceneRouter::moveShape(RouterNode *node, QRectF rect)
+void SceneRouter::moveShape(Node *node, QRectF rect)
 {
-    m_router->moveShape(node->shapeRef, SceneRouter::toARect(rect));
+    m_router->moveShape(m_nodes[node]->shapeRef, SceneRouter::toARect(rect));
+}
+
+QPainterPath SceneRouter::getPainterPath(Connect *connect)
+{
+    return m_connects[connect]->getPainterPath();
+}
+
+void SceneRouter::setCallback(Connect *connect)
+{
+    m_connects[connect]->setCallback(connect);
 }
 
 void SceneRouter::handleConnect(void *context)
 {
-    Connect *edge = static_cast<Connect *>(context);
-    edge->updatePath();
+    Connect *connect = static_cast<Connect *>(context);
+    connect->updatePath();
 }
 
 QPointF SceneRouter::toQPointF(const Avoid::Point &point)
