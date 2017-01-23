@@ -18,8 +18,10 @@ Scene::~Scene()
 Node *Scene::addNode(QPointF pos)
 {
     Node *node = new Node(m_router);
+    m_nodes << node;
     addItem(node);
     node->setPos(pos);
+
     return node;
 }
 
@@ -32,15 +34,13 @@ void Scene::removeNode(Node *node)
 
 Connect *Scene::addConnect(Node *src, Node *dest)
 {
-    Connect *connect = new Connect(m_router, src, dest);
+    Connect *connect = m_router->makeConnect(src, dest);
     addItem(connect);
-
     return connect;
 }
 
 void Scene::removeConnect(Connect *connect)
 {
-    m_router->removeConnect(connect);
     removeItem(connect);
     delete connect;
 }

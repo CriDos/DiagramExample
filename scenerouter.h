@@ -23,21 +23,16 @@ class SceneRouter
 private:
     Avoid::Router *m_router{};
     QHash<Node *, class Avoid::ShapeRef *> m_nodes;
-    QHash<Connect *, class Avoid::ConnRef *> m_connects;
 
 public:
     SceneRouter();
     void addNode(Node *node);
     void removeNode(Node *node);
-    void addConnect(Node *src, Node *dest, Connect *connect);
-    void removeConnect(Connect *connect);
+    Connect *makeConnect(Node *src, Node *dest);
     void reroute();
     void moveShape(Node *node, QRectF rect);
-    QPainterPath getPainterPath(Connect *connect);
-    void setCallback(Connect *connect);
 
 public:
-    static void handleConnect(void *context);
     static QPointF toQPointF(const Avoid::Point &point);
     static Avoid::Point toAPoint(const QPointF &point);
     static QRectF toQRectF(const Avoid::Rectangle &rect);

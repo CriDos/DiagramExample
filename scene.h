@@ -24,4 +24,5 @@ public:
 
 private:
     SceneRouter *m_router{};
+    QVector<Node *> m_nodes;
 };

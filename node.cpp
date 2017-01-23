@@ -11,9 +11,9 @@ Node::Node(SceneRouter *router, QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     m_rect = QRectF(0, 0, 40, 40);
-    m_router->addNode(this);
-
     setZValue(1);
+
+    m_router->addNode(this);
 }
 
 QRectF Node::boundingRect() const
@@ -36,7 +36,7 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
 {
     if (change == ItemPositionChange) {
         m_router->moveShape(this, QRectF(value.toPointF(), m_rect.size()));
-        m_router->reroute();
+        //m_router->reroute();
     }
 
     return QGraphicsItem::itemChange(change, value);

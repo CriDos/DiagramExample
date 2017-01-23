@@ -28,18 +28,16 @@ void SceneRouter::removeNode(Node *node)
     m_router->deleteShape(shape);
 }
 
-void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)
+Connect *SceneRouter::makeConnect(Node *src, Node *dest)
 {
     Avoid::ConnEnd srcEnd(m_nodes[src], 1);
     Avoid::ConnEnd dstEnd(m_nodes[dest], 1);
-    m_connects[connect] = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
-}
+    Avoid::ConnRef *connRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
+    reroute();
+    QPainterPath path = makeQPainterPath(connRef);
+    m_router->deleteConnector(connRef);
 
-void SceneRouter::removeConnect(Connect *connect)
-{
-    Avoid::ConnRef *ref = m_connects[connect];
-    m_router->deleteConnector(ref);
-    m_connects.remove(connect);
+    return new Connect(path);
 }
 
 void SceneRouter::reroute()
@@ -50,22 +48,6 @@ void SceneRouter::reroute()
 void SceneRouter::moveShape(Node *node, QRectF rect)
 {
     m_router->moveShape(m_nodes[node], SceneRouter::toARect(rect));
-}
-
-QPainterPath SceneRouter::getPainterPath(Connect *connect)
-{
-    return makeQPainterPath(m_connects[connect]);
-}
-
-void SceneRouter::setCallback(Connect *connect)
-{
-    m_connects[connect]->setCallback(handleConnect, connect);
-}
-
-void SceneRouter::handleConnect(void *context)
-{
-    Connect *connect = static_cast<Connect *>(context);
-    connect->updatePath();
 }
 
 QPointF SceneRouter::toQPointF(const Avoid::Point &point)
