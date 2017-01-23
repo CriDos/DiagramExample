@@ -3,17 +3,17 @@
 #include <QDebug>
 #include <QGraphicsScene>
 
-#include "qrouter.h"
+#include "scenerouter.h"
 #include "connect.h"
 #include "node.h"
 
-Connect::Connect(QRouter *router, Node *src, Node *dest, QGraphicsItem *parent)
+Connect::Connect(SceneRouter *router, Node *src, Node *dest, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_router(router)
 {
     m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
     m_router->reroute();
-    m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
+    m_path = SceneRouter::makeQPainterPath(m_connect->shapeRef);
     m_connect->setCallback(this);
 
     setZValue(-1);
@@ -46,6 +46,7 @@ void Connect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 void Connect::updatePath()
 {
-    m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
+    m_path = SceneRouter::makeQPainterPath(m_connect->shapeRef);
+    //update();
     scene()->update();
 }

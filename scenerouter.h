@@ -16,13 +16,13 @@
 class Node;
 class Connect;
 
-class QRouter
+class SceneRouter
 {
 private:
     Avoid::Router *m_router{};
 
 public:
-    QRouter();
+    SceneRouter();
     struct QRouterNode *createNode(Node *node);
     struct QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
     Avoid::Router *router() const;
@@ -54,6 +54,6 @@ struct QRouterConnect {
 
     void setCallback(Connect *pathLine)
     {
-        shapeRef->setCallback(QRouter::handleConnectorCallback, pathLine);
+        shapeRef->setCallback(SceneRouter::handleConnectorCallback, pathLine);
     }
 };

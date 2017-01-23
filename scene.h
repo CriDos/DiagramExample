@@ -4,7 +4,7 @@
 #include <QRectF>
 #include <QGraphicsScene>
 
-class QRouter;
+class SceneRouter;
 class Node;
 
 class Scene : public QGraphicsScene
@@ -18,8 +18,8 @@ public:
     void addNode(Node *node);
     void addConnect(Node *src, Node *dest);
 
-    QRouter *router() const;
+    SceneRouter *router() const;
 
 private:
-    QRouter *m_router{};
+    SceneRouter *m_router{};
 };

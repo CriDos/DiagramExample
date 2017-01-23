@@ -4,9 +4,6 @@
 
 TARGET = libavoid
 INCLUDEPATH += $$PWD
-DEPENDPATH += $$PWD
 
 HEADERS += $$PWD/*.h
 SOURCES += $$PWD/*.cpp
-HEADERS += $$PWD/libavoid/*.h
-SOURCES += $$PWD/libavoid/*.cpp

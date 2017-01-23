@@ -15,4 +15,4 @@ SOURCES += $$PWD/*.cpp
 
 FORMS += mainwindow.ui
 
-include(libavoidwrapper/libavoidwrapper.pri)
+include(libavoid/libavoid.pri)

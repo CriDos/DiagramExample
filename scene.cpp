@@ -2,7 +2,7 @@
 #include <QList>
 #include <QListIterator>
 
-#include "qrouter.h"
+#include "scenerouter.h"
 #include "scene.h"
 #include "node.h"
 #include "connect.h"
@@ -10,7 +10,7 @@
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    m_router = new QRouter();
+    m_router = new SceneRouter();
 }
 
 Scene::~Scene()
@@ -24,11 +24,10 @@ void Scene::addNode(Node *node)
 
 void Scene::addConnect(Node *src, Node *dest)
 {
-    auto pathLine = new Connect(m_router, src, dest);
-    addItem(pathLine);
+    addItem(new Connect(m_router, src, dest));
 }
 
-QRouter *Scene::router() const
+SceneRouter *Scene::router() const
 {
     return m_router;
 }

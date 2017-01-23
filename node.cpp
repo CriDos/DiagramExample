@@ -13,9 +13,9 @@
 #include <QPen>
 #include <QBrush>
 
-#include "qrouter.h"
+#include "scenerouter.h"
 
-Node::Node(QRouter *router, QGraphicsItem *parent)
+Node::Node(SceneRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
     , m_router(router)
 {
