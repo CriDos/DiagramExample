@@ -17,6 +17,7 @@ public:
     ~Scene();
 
     void addNode(Node *node);
+    void removeNode(Node *node);
     Connect *addConnect(Node *src, Node *dest);
     void removeConnect(Connect *connect);
     SceneRouter *router() const;

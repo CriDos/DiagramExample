@@ -28,6 +28,7 @@ private:
 public:
     SceneRouter();
     void addNode(Node *node);
+    void removeNode(Node *node);
     void addConnect(Node *src, Node *dest, Connect *connect);
     void removeConnect(Connect *connect);
     void reroute();

@@ -8,7 +8,6 @@
 SceneRouter::SceneRouter()
 {
     m_router = new Avoid::Router(Avoid::OrthogonalRouting);
-
     m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
     m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
     m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
@@ -18,9 +17,15 @@ void SceneRouter::addNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
     Avoid::ShapeRef *shapeRef = new Avoid::ShapeRef(m_router, rect);
-    new Avoid::ShapeConnectionPin(shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
+    new Avoid::ShapeConnectionPin(shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
     m_nodes[node] = shapeRef;
+}
+
+void SceneRouter::removeNode(Node *node)
+{
+    Avoid::ShapeRef *shape = m_nodes[node];
+    m_router->deleteShape(shape);
 }
 
 void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)

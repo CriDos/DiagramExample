@@ -20,6 +20,13 @@ void Scene::addNode(Node *node)
     addItem(node);
 }
 
+void Scene::removeNode(Node *node)
+{
+    m_router->removeNode(node);
+    removeItem(node);
+    delete node;
+}
+
 Connect *Scene::addConnect(Node *src, Node *dest)
 {
     Connect *connect = new Connect(m_router, src, dest);
