@@ -13,8 +13,9 @@
 #include <QPolygonF>
 #include <QPainterPath>
 
+struct RouterConnect;
+struct RouterNode;
 class Node;
-class Connect;
 
 class SceneRouter
 {
@@ -23,8 +24,8 @@ private:
 
 public:
     SceneRouter();
-    struct RouterNode *createNode(Node *node);
-    struct RouterConnect *createConnect(RouterNode *src, RouterNode *dest);
+    RouterNode *createNode(Node *node);
+    RouterConnect *createConnect(RouterNode *src, RouterNode *dest);
     Avoid::Router *router() const;
     void reroute();
     void moveShape(RouterNode *node, QRectF rect);
@@ -46,13 +47,12 @@ public:
 
 struct RouterNode {
     Avoid::ShapeRef *shapeRef{};
-    Avoid::ConnEnd *connEnd{};
 };
 
 struct RouterConnect {
     Avoid::ConnRef *shapeRef{};
 
-    void setCallback(Connect *connect)
+    void setCallback(class Connect *connect)
     {
         shapeRef->setCallback(SceneRouter::handleConnect, connect);
     }

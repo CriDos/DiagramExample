@@ -17,7 +17,6 @@ RouterNode *SceneRouter::createNode(Node *node)
     Avoid::Rectangle rect = toARect(node->rect());
     RouterNode *rnode = new RouterNode();
     rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
-    rnode->connEnd = new Avoid::ConnEnd(rnode->shapeRef, 1);
     new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
     return rnode;
