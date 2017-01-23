@@ -12,10 +12,15 @@
 #include <QPointF>
 #include <QPolygonF>
 #include <QPainterPath>
+#include <QGraphicsScene>
 
 class Node;
 
-typedef Avoid::ShapeRef QRouterNode;
+struct QRouterNode {
+    Avoid::ShapeRef *shapeRef{};
+    Avoid::ConnEnd *connEnd{};
+};
+
 typedef Avoid::ConnRef QRouterConnect;
 
 class QRouter : public Avoid::Router
@@ -23,7 +28,7 @@ class QRouter : public Avoid::Router
 public:
     QRouter();
     QRouterNode *createNode(Node *node);
-    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
+    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest, QGraphicsScene *scene);
 
 public:
     static void handleConnectorCallback(void *context);

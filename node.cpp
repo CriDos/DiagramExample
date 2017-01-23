@@ -47,7 +47,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        m_router->moveShape(m_shapeRef, QRouter::toARect(QRectF(value.toPointF(), m_rect.size())));
+        m_router->moveShape(m_routerNode->shapeRef, QRouter::toARect(QRectF(value.toPointF(), m_rect.size())));
         m_router->processTransaction();
     }
 

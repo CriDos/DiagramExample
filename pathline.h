@@ -9,7 +9,7 @@
 class PathLine : public QGraphicsItem
 {
 public:
-    PathLine(QRouterConnect *connect, QGraphicsItem *parent = 0);
+    PathLine(QRouterConnect *connect, QRouter *router, QGraphicsItem *parent = 0);
 
     virtual QPainterPath shape() const override;
     QRectF boundingRect() const override;
@@ -19,4 +19,5 @@ public:
 private:
     QPainterPath m_path;
     QRouterConnect *m_connect{};
+    QRouter *m_router{};
 };

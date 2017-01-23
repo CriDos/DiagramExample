@@ -13,27 +13,29 @@ QRouter::QRouter()
 
 QRouterNode *QRouter::createNode(Node *node)
 {
+    QRouterNode *rnode = new QRouterNode();
     Avoid::Rectangle rect = toARect(node->rect());
-    QRouterNode *rnode = new QRouterNode(this, rect);
-    new Avoid::ShapeConnectionPin(rnode, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    rnode->shapeRef = new Avoid::ShapeRef(this, rect);
+    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    rnode->connEnd = new Avoid::ConnEnd(rnode->shapeRef, 1);
 
     return rnode;
 }
 
-QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
+QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest, QGraphicsScene *scene)
 {
-    Avoid::ConnEnd dstEnd(src, 1);
-    Avoid::ConnEnd srcEnd(dest, 1);
+    Avoid::ConnEnd dstEnd(src->shapeRef, 1);
+    Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
     QRouterConnect *connect = new Avoid::ConnRef(this, srcEnd, dstEnd);
-    connect->setCallback(handleConnectorCallback, connect);
+    connect->setCallback(handleConnectorCallback, scene);
 
     return connect;
 }
 
 void QRouter::handleConnectorCallback(void *context)
 {
-    PathLine *edge = static_cast<PathLine *>(context);
-    edge->updatePath();
+    QGraphicsScene *edge = static_cast<QGraphicsScene *>(context);
+    edge->update();
 }
 
 QPointF QRouter::toQPointF(const Avoid::Point &point)
@@ -115,6 +117,9 @@ QPainterPath QRouter::makeQPainterPath(Avoid::ConnRef *connection)
 {
     const auto &displayRoute = connection->displayRoute();
     const auto &ps = displayRoute.ps;
+    if (ps.size() == 0)
+        return QPainterPath();
+
     const auto &p = ps[0];
     QPainterPath path(QPointF(p.x, p.y));
     for (auto &point : ps) {

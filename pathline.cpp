@@ -7,11 +7,12 @@
 #include "pathline.h"
 #include "node.h"
 
-PathLine::PathLine(QRouterConnect *connect, QGraphicsItem *parent)
+PathLine::PathLine(QRouterConnect *connect, QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
     m_connect = connect;
-
+    m_router = router;
+    m_router->processTransaction();
     m_path = QRouter::makeQPainterPath(connect);
 
     setZValue(-1);
@@ -19,7 +20,7 @@ PathLine::PathLine(QRouterConnect *connect, QGraphicsItem *parent)
 
 QPainterPath PathLine::shape() const
 {
-    return m_path;
+    return QRouter::makeQPainterPath(m_connect);
 }
 
 QRectF PathLine::boundingRect() const
@@ -44,6 +45,7 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void PathLine::updatePath()
 {
-    qInfo() << "test";
-    //scene()->update();
+    //auto *s = scene();
+    //if (s)
+    //    s->update();
 }
