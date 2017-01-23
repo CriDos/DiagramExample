@@ -13,22 +13,19 @@ QRouter::QRouter()
 
 QRouterNode *QRouter::createNode(Node *node)
 {
-    QRouterNode *rnode = new QRouterNode();
     Avoid::Rectangle rect = toARect(node->rect());
-    rnode->shapeRef = new Avoid::ShapeRef(this, rect);
-    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    QRouterNode *rnode = new QRouterNode(this, rect);
+    new Avoid::ShapeConnectionPin(rnode, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
     return rnode;
 }
 
 QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
 {
-    QRouterConnect *connect = new QRouterConnect();
-
-    Avoid::ConnEnd dstEnd(src->shapeRef, 1);
-    Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
-    connect->connRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
-    connect->connRef->setCallback(handleConnectorCallback, connect);
+    Avoid::ConnEnd dstEnd(src, 1);
+    Avoid::ConnEnd srcEnd(dest, 1);
+    QRouterConnect *connect = new Avoid::ConnRef(this, srcEnd, dstEnd);
+    connect->setCallback(handleConnectorCallback, connect);
 
     return connect;
 }

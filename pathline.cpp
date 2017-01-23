@@ -12,7 +12,7 @@ PathLine::PathLine(QRouterConnect *connect, QGraphicsItem *parent)
 {
     m_connect = connect;
 
-    m_path = QRouter::makeQPainterPath(connect->connRef);
+    m_path = QRouter::makeQPainterPath(connect);
 
     setZValue(-1);
 }
@@ -44,5 +44,6 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void PathLine::updatePath()
 {
+    qInfo() << "test";
     //scene()->update();
 }
