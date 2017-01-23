@@ -15,9 +15,11 @@ Scene::~Scene()
 {
 }
 
-void Scene::addNode(Node *node)
+Node *Scene::addNode()
 {
+    Node *node = new Node(m_router);
     addItem(node);
+    return node;
 }
 
 void Scene::removeNode(Node *node)

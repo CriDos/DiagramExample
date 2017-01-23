@@ -18,14 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_scene = new Scene(this);
     ui->graphicsView->setScene(m_scene);
 
-    Node *mri1 = new Node(m_scene->router());
-    m_scene->addNode(mri1);
-
-    Node *mri2 = new Node(m_scene->router());
-    m_scene->addNode(mri2);
-
-    Node *mri3 = new Node(m_scene->router());
-    m_scene->addNode(mri3);
+    Node *mri1 = m_scene->addNode();
+    Node *mri2 = m_scene->addNode();
+    Node *mri3 = m_scene->addNode();
 
     Connect *con = m_scene->addConnect(mri1, mri2);
 }
