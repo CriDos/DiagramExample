@@ -24,8 +24,8 @@ QRouterNode *QRouter::createNode(Node *node)
 
 QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
 {
-    Avoid::ConnEnd dstEnd(src->shapeRef, 1);
-    Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
+    Avoid::ConnEnd srcEnd(src->shapeRef, 1);
+    Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
     return new Avoid::ConnRef(this, srcEnd, dstEnd);
 }
 
@@ -114,9 +114,6 @@ QPainterPath QRouter::makeQPainterPath(Avoid::ConnRef *connection)
 {
     const auto &displayRoute = connection->displayRoute();
     const auto &ps = displayRoute.ps;
-    if (ps.size() == 0)
-        return QPainterPath();
-
     const auto &p = ps[0];
     QPainterPath path(QPointF(p.x, p.y));
     for (auto &point : ps) {
