@@ -1,11 +1,9 @@
 #pragma once
 
-#include "libavoid/libavoid.h"
-#include "libavoid/connend.h"
-#include "libavoid/connector.h"
-#include "libavoid/router.h"
-#include "libavoid/shape.h"
-#include "libavoid/geomtypes.h"
+#include "connect.h"
+#include "node.h"
+
+#include "libavoid/geometry.h"
 
 #include <QObject>
 #include <QRectF>
@@ -13,22 +11,30 @@
 #include <QPolygonF>
 #include <QPainterPath>
 
-struct RouterConnect;
-struct RouterNode;
-class Node;
+namespace Avoid
+{
+class Router;
+class ShapeRef;
+class ConnRef;
+}
 
 class SceneRouter
 {
 private:
     Avoid::Router *m_router{};
+    QHash<Node *, class Avoid::ShapeRef *> m_nodes;
+    QHash<Connect *, class Avoid::ConnRef *> m_connects;
 
 public:
     SceneRouter();
-    RouterNode *createNode(Node *node);
-    RouterConnect *createConnect(RouterNode *src, RouterNode *dest);
-    Avoid::Router *router() const;
+    void addNode(Node *node);
+    void removeNode(Node *node);
+    void addConnect(Node *src, Node *dest, Connect *connect);
+    void removeConnect(Connect *connect);
     void reroute();
-    void moveShape(RouterNode *node, QRectF rect);
+    void moveShape(Node *node, QRectF rect);
+    QPainterPath getPainterPath(Connect *connect);
+    void setCallback(Connect *connect);
 
 public:
     static void handleConnect(void *context);
@@ -43,21 +49,4 @@ public:
     static QPainterPath makeQPainterPath(Avoid::ConnRef *connection);
     static QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end);
     static QPolygonF makeQPolygonF(Avoid::ConnRef *connection);
-};
-
-struct RouterNode {
-    Avoid::ShapeRef *shapeRef{};
-};
-
-struct RouterConnect {
-    Avoid::ConnRef *shapeRef{};
-
-    void setCallback(class Connect *connect)
-    {
-        shapeRef->setCallback(SceneRouter::handleConnect, connect);
-    }
-    QPainterPath getPainterPath()
-    {
-        return SceneRouter::makeQPainterPath(shapeRef);
-    }
 };

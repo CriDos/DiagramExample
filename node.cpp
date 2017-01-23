@@ -1,19 +1,7 @@
 #include "node.h"
-
-#include <QGraphicsItem>
-#include <QGraphicsScene>
-#include <QGraphicsObject>
-#include <QPainter>
-#include <QColor>
-#include <QBrush>
-#include <QPen>
-#include <QRectF>
-#include <QPointF>
-#include <QDebug>
-#include <QPen>
-#include <QBrush>
-
 #include "scenerouter.h"
+
+#include <QtWidgets>
 
 Node::Node(SceneRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
@@ -23,7 +11,7 @@ Node::Node(SceneRouter *router, QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     m_rect = QRectF(0, 0, 40, 40);
-    m_routerNode = m_router->createNode(this);
+    m_router->addNode(this);
 
     setZValue(1);
 }
@@ -47,7 +35,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        m_router->moveShape(m_routerNode, QRectF(value.toPointF(), m_rect.size()));
+        m_router->moveShape(this, QRectF(value.toPointF(), m_rect.size()));
         m_router->reroute();
     }
 
@@ -57,9 +45,4 @@ QVariant Node::itemChange(QGraphicsItem::GraphicsItemChange change, const QVaria
 QRectF Node::rect() const
 {
     return m_rect;
-}
-
-RouterNode *Node::routerNode() const
-{
-    return m_routerNode;
 }

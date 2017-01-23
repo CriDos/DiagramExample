@@ -1,39 +1,45 @@
 #include "scenerouter.h"
 #include "connect.h"
 
+#include "libavoid/libavoid.h"
+
 #include <node.h>
 
 SceneRouter::SceneRouter()
 {
     m_router = new Avoid::Router(Avoid::OrthogonalRouting);
-
     m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
     m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
     m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
-RouterNode *SceneRouter::createNode(Node *node)
+void SceneRouter::addNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
-    RouterNode *rnode = new RouterNode();
-    rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
-    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    Avoid::ShapeRef *shapeRef = new Avoid::ShapeRef(m_router, rect);
 
-    return rnode;
+    new Avoid::ShapeConnectionPin(shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    m_nodes[node] = shapeRef;
 }
 
-RouterConnect *SceneRouter::createConnect(RouterNode *src, RouterNode *dest)
+void SceneRouter::removeNode(Node *node)
 {
-    RouterConnect *connect = new RouterConnect();
-    Avoid::ConnEnd srcEnd(src->shapeRef, 1);
-    Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
-    connect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
-    return connect;
+    Avoid::ShapeRef *shape = m_nodes[node];
+    m_router->deleteShape(shape);
 }
 
-Avoid::Router *SceneRouter::router() const
+void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)
 {
-    return m_router;
+    Avoid::ConnEnd srcEnd(m_nodes[src], 1);
+    Avoid::ConnEnd dstEnd(m_nodes[dest], 1);
+    m_connects[connect] = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
+}
+
+void SceneRouter::removeConnect(Connect *connect)
+{
+    Avoid::ConnRef *ref = m_connects[connect];
+    m_router->deleteConnector(ref);
+    m_connects.remove(connect);
 }
 
 void SceneRouter::reroute()
@@ -41,15 +47,25 @@ void SceneRouter::reroute()
     m_router->processTransaction();
 }
 
-void SceneRouter::moveShape(RouterNode *node, QRectF rect)
+void SceneRouter::moveShape(Node *node, QRectF rect)
 {
-    m_router->moveShape(node->shapeRef, SceneRouter::toARect(rect));
+    m_router->moveShape(m_nodes[node], SceneRouter::toARect(rect));
+}
+
+QPainterPath SceneRouter::getPainterPath(Connect *connect)
+{
+    return makeQPainterPath(m_connects[connect]);
+}
+
+void SceneRouter::setCallback(Connect *connect)
+{
+    m_connects[connect]->setCallback(handleConnect, connect);
 }
 
 void SceneRouter::handleConnect(void *context)
 {
-    Connect *edge = static_cast<Connect *>(context);
-    edge->updatePath();
+    Connect *connect = static_cast<Connect *>(context);
+    connect->updatePath();
 }
 
 QPointF SceneRouter::toQPointF(const Avoid::Point &point)
