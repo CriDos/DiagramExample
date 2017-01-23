@@ -20,9 +20,19 @@ void Scene::addNode(Node *node)
     addItem(node);
 }
 
-void Scene::addConnect(Node *src, Node *dest)
+Connect *Scene::addConnect(Node *src, Node *dest)
 {
-    addItem(new Connect(m_router, src, dest));
+    Connect *connect = new Connect(m_router, src, dest);
+    addItem(connect);
+
+    return connect;
+}
+
+void Scene::removeConnect(Connect *connect)
+{
+    m_router->removeConnect(connect);
+    removeItem(connect);
+    delete connect;
 }
 
 SceneRouter *Scene::router() const

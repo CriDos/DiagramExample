@@ -6,6 +6,7 @@
 
 class SceneRouter;
 class Node;
+class Connect;
 
 class Scene : public QGraphicsScene
 {
@@ -16,8 +17,8 @@ public:
     ~Scene();
 
     void addNode(Node *node);
-    void addConnect(Node *src, Node *dest);
-
+    Connect *addConnect(Node *src, Node *dest);
+    void removeConnect(Connect *connect);
     SceneRouter *router() const;
 
 private:

@@ -30,6 +30,13 @@ void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)
     m_connects[connect] = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
 }
 
+void SceneRouter::removeConnect(Connect *connect)
+{
+    Avoid::ConnRef *ref = m_connects[connect];
+    m_router->deleteConnector(ref);
+    m_connects.remove(connect);
+}
+
 void SceneRouter::reroute()
 {
     m_router->processTransaction();

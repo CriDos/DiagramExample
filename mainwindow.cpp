@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     Node *mri3 = new Node(m_scene->router());
     m_scene->addNode(mri3);
 
-    m_scene->addConnect(mri1, mri2);
+    Connect *con = m_scene->addConnect(mri1, mri2);
+    m_scene->removeConnect(con);
 }
 
 MainWindow::~MainWindow()
