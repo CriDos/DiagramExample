@@ -8,8 +8,6 @@
 #include <QGraphicsItem>
 
 class SceneRouter;
-struct RouterNode;
-struct RouterConnect;
 
 class Node : public QGraphicsItem
 {

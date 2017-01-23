@@ -1,19 +1,7 @@
 #include "node.h"
-
-#include <QGraphicsItem>
-#include <QGraphicsScene>
-#include <QGraphicsObject>
-#include <QPainter>
-#include <QColor>
-#include <QBrush>
-#include <QPen>
-#include <QRectF>
-#include <QPointF>
-#include <QDebug>
-#include <QPen>
-#include <QBrush>
-
 #include "scenerouter.h"
+
+#include <QtWidgets>
 
 Node::Node(SceneRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)

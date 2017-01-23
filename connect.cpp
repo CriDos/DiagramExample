@@ -4,8 +4,6 @@
 #include <QGraphicsScene>
 
 #include "scenerouter.h"
-#include "connect.h"
-#include "node.h"
 
 Connect::Connect(SceneRouter *router, Node *src, Node *dest, QGraphicsItem *parent)
     : QGraphicsItem(parent)

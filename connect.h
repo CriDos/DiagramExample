@@ -6,7 +6,6 @@
 #include <QPen>
 
 class SceneRouter;
-struct RouterConnect;
 class Node;
 
 class Connect : public QGraphicsItem

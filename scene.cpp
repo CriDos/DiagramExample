@@ -1,6 +1,4 @@
-#include <QDebug>
-#include <QList>
-#include <QListIterator>
+#include <QtWidgets>
 
 #include "scenerouter.h"
 #include "scene.h"

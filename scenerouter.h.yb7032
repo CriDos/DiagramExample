@@ -22,13 +22,14 @@ class SceneRouter
 {
 private:
     Avoid::Router *m_router{};
-    QHash<Node *, class Avoid::ShapeRef *> m_nodes;
-    QHash<Connect *, class Avoid::ConnRef *> m_connects;
+    QMap<Node *, Avoid::ShapeRef *> m_nodes;
+    QMap<Connect *, Avoid::ConnRef *> m_connects;
 
 public:
     SceneRouter();
     void addNode(Node *node);
     void addConnect(Node *src, Node *dest, Connect *connect);
+    Avoid::Router *router() const;
     void reroute();
     void moveShape(Node *node, QRectF rect);
     QPainterPath getPainterPath(Connect *connect);
@@ -48,3 +49,4 @@ public:
     static QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end);
     static QPolygonF makeQPolygonF(Avoid::ConnRef *connection);
 };
+

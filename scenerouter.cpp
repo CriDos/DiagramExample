@@ -1,6 +1,8 @@
 #include "scenerouter.h"
 #include "connect.h"
 
+#include "libavoid/libavoid.h"
+
 #include <node.h>
 
 SceneRouter::SceneRouter()
@@ -15,25 +17,17 @@ SceneRouter::SceneRouter()
 void SceneRouter::addNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
-    RouterNode *rnode = new RouterNode();
-    rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
-    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+    Avoid::ShapeRef *shapeRef = new Avoid::ShapeRef(m_router, rect);
+    new Avoid::ShapeConnectionPin(shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
 
-    m_nodes[node] = rnode;
+    m_nodes[node] = shapeRef;
 }
 
 void SceneRouter::addConnect(Node *src, Node *dest, Connect *connect)
 {
-    RouterConnect *rconnect = new RouterConnect();
-    Avoid::ConnEnd srcEnd(m_nodes[src]->shapeRef, 1);
-    Avoid::ConnEnd dstEnd(m_nodes[dest]->shapeRef, 1);
-    rconnect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
-    m_connects[connect] = rconnect;
-}
-
-Avoid::Router *SceneRouter::router() const
-{
-    return m_router;
+    Avoid::ConnEnd srcEnd(m_nodes[src], 1);
+    Avoid::ConnEnd dstEnd(m_nodes[dest], 1);
+    m_connects[connect] = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
 }
 
 void SceneRouter::reroute()
@@ -43,17 +37,17 @@ void SceneRouter::reroute()
 
 void SceneRouter::moveShape(Node *node, QRectF rect)
 {
-    m_router->moveShape(m_nodes[node]->shapeRef, SceneRouter::toARect(rect));
+    m_router->moveShape(m_nodes[node], SceneRouter::toARect(rect));
 }
 
 QPainterPath SceneRouter::getPainterPath(Connect *connect)
 {
-    return m_connects[connect]->getPainterPath();
+    return makeQPainterPath(m_connects[connect]);
 }
 
 void SceneRouter::setCallback(Connect *connect)
 {
-    m_connects[connect]->setCallback(connect);
+    m_connects[connect]->setCallback(handleConnect, connect);
 }
 
 void SceneRouter::handleConnect(void *context)
