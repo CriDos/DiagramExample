@@ -19,5 +19,5 @@ public:
 private:
     QPainterPath m_path;
     SceneRouter *m_router{};
-    QRouterConnect *m_connect{};
+    RouterConnect *m_connect{};
 };

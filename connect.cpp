@@ -13,7 +13,7 @@ Connect::Connect(SceneRouter *router, Node *src, Node *dest, QGraphicsItem *pare
 {
     m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
     m_router->reroute();
-    m_path = SceneRouter::makeQPainterPath(m_connect->shapeRef);
+    m_path = m_connect->getPainterPath();
     m_connect->setCallback(this);
 
     setZValue(-1);
@@ -46,7 +46,6 @@ void Connect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
 void Connect::updatePath()
 {
-    m_path = SceneRouter::makeQPainterPath(m_connect->shapeRef);
-    //update();
+    m_path = m_connect->getPainterPath();
     scene()->update();
 }

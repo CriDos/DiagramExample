@@ -23,11 +23,11 @@ private:
 
 public:
     SceneRouter();
-    struct QRouterNode *createNode(Node *node);
-    struct QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
+    struct RouterNode *createNode(Node *node);
+    struct RouterConnect *createConnect(RouterNode *src, RouterNode *dest);
     Avoid::Router *router() const;
     void reroute();
-    void moveShape(QRouterNode *node, QRectF rect);
+    void moveShape(RouterNode *node, QRectF rect);
 
 public:
     static void handleConnectorCallback(void *context);
@@ -44,16 +44,20 @@ public:
     static QPolygonF makeQPolygonF(Avoid::ConnRef *connection);
 };
 
-struct QRouterNode {
+struct RouterNode {
     Avoid::ShapeRef *shapeRef{};
     Avoid::ConnEnd *connEnd{};
 };
 
-struct QRouterConnect {
+struct RouterConnect {
     Avoid::ConnRef *shapeRef{};
 
-    void setCallback(Connect *pathLine)
+    void setCallback(Connect *connect)
     {
-        shapeRef->setCallback(SceneRouter::handleConnectorCallback, pathLine);
+        shapeRef->setCallback(SceneRouter::handleConnectorCallback, connect);
+    }
+    QPainterPath getPainterPath()
+    {
+        return SceneRouter::makeQPainterPath(shapeRef);
     }
 };

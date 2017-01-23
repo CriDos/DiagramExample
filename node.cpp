@@ -59,7 +59,7 @@ QRectF Node::rect() const
     return m_rect;
 }
 
-QRouterNode *Node::routerNode() const
+RouterNode *Node::routerNode() const
 {
     return m_routerNode;
 }

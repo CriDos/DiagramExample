@@ -12,10 +12,10 @@ SceneRouter::SceneRouter()
     m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
 }
 
-QRouterNode *SceneRouter::createNode(Node *node)
+RouterNode *SceneRouter::createNode(Node *node)
 {
     Avoid::Rectangle rect = toARect(node->rect());
-    QRouterNode *rnode = new QRouterNode();
+    RouterNode *rnode = new RouterNode();
     rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
     rnode->connEnd = new Avoid::ConnEnd(rnode->shapeRef, 1);
     new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
@@ -23,9 +23,9 @@ QRouterNode *SceneRouter::createNode(Node *node)
     return rnode;
 }
 
-QRouterConnect *SceneRouter::createConnect(QRouterNode *src, QRouterNode *dest)
+RouterConnect *SceneRouter::createConnect(RouterNode *src, RouterNode *dest)
 {
-    QRouterConnect *connect = new QRouterConnect();
+    RouterConnect *connect = new RouterConnect();
     Avoid::ConnEnd srcEnd(src->shapeRef, 1);
     Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
     connect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
@@ -42,7 +42,7 @@ void SceneRouter::reroute()
     m_router->processTransaction();
 }
 
-void SceneRouter::moveShape(QRouterNode *node, QRectF rect)
+void SceneRouter::moveShape(RouterNode *node, QRectF rect)
 {
     m_router->moveShape(node->shapeRef, SceneRouter::toARect(rect));
 }
