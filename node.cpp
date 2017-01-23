@@ -14,7 +14,7 @@
 #include "qrouter.h"
 #include "node.h"
 
-Node::Node(QPointF pos, QRouter *router, QGraphicsItem *parent)
+Node::Node(QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
