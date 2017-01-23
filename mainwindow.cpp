@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setBackgroundBrush(QBrush(Qt::black));
     m_scene = new Scene(this);
     ui->graphicsView->setScene(m_scene);
-    //ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     Node *mri1 = new Node(m_scene->router());
     m_scene->addNode(mri1);

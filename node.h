@@ -7,7 +7,9 @@
 #include <QBrush>
 #include <QGraphicsItem>
 
-#include "qrouter.h"
+class QRouter;
+class QRouterNode;
+class QRouterConnect;
 
 class Node : public QGraphicsItem
 {

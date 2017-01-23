@@ -14,8 +14,8 @@ PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent
     m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
 
     m_router->processTransaction();
-    m_path = QRouter::makeQPainterPath(m_connect);
-    m_connect->setCallback(QRouter::handleConnectorCallback, this);
+    m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
+    m_connect->shapeRef->setCallback(QRouter::handleConnectorCallback, this);
 
     setZValue(-1);
 }
@@ -47,6 +47,6 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void PathLine::updatePath()
 {
-    m_path = QRouter::makeQPainterPath(m_connect);
+    m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
     scene()->update();
 }

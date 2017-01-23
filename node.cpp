@@ -1,3 +1,5 @@
+#include "node.h"
+
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QGraphicsObject>
@@ -12,17 +14,16 @@
 #include <QBrush>
 
 #include "qrouter.h"
-#include "node.h"
 
 Node::Node(QRouter *router, QGraphicsItem *parent)
     : QGraphicsItem(parent)
+    , m_router(router)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     m_rect = QRectF(0, 0, 40, 40);
 
-    m_router = router;
     m_routerNode = m_router->createNode(this);
 
     setZValue(1);

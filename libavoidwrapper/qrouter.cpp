@@ -24,9 +24,11 @@ QRouterNode *QRouter::createNode(Node *node)
 
 QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
 {
+    QRouterConnect *connect = new QRouterConnect();
     Avoid::ConnEnd srcEnd(src->shapeRef, 1);
     Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
-    return new Avoid::ConnRef(this, srcEnd, dstEnd);
+    connect->shapeRef = new Avoid::ConnRef(this, srcEnd, dstEnd);
+    return connect;
 }
 
 void QRouter::handleConnectorCallback(void *context)
