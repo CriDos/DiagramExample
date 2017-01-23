@@ -20,8 +20,8 @@ Node::Node(QPointF pos, QRouter *router, QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
+    m_rect = QRectF(0, 0, 40, 40);
 
-    m_rect = QRectF(pos.x(), pos.y(), 40, 40);
     m_router = router;
     m_routerNode = m_router->createNode(this);
 
