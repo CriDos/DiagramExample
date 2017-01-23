@@ -30,7 +30,7 @@ public:
     void moveShape(RouterNode *node, QRectF rect);
 
 public:
-    static void handleConnectorCallback(void *context);
+    static void handleConnect(void *context);
     static QPointF toQPointF(const Avoid::Point &point);
     static Avoid::Point toAPoint(const QPointF &point);
     static QRectF toQRectF(const Avoid::Rectangle &rect);
@@ -54,7 +54,7 @@ struct RouterConnect {
 
     void setCallback(Connect *connect)
     {
-        shapeRef->setCallback(SceneRouter::handleConnectorCallback, connect);
+        shapeRef->setCallback(SceneRouter::handleConnect, connect);
     }
     QPainterPath getPainterPath()
     {

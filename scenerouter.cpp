@@ -47,7 +47,7 @@ void SceneRouter::moveShape(RouterNode *node, QRectF rect)
     m_router->moveShape(node->shapeRef, SceneRouter::toARect(rect));
 }
 
-void SceneRouter::handleConnectorCallback(void *context)
+void SceneRouter::handleConnect(void *context)
 {
     Connect *edge = static_cast<Connect *>(context);
     edge->updatePath();

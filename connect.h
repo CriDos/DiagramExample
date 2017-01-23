@@ -4,7 +4,10 @@
 #include <QGraphicsPathItem>
 #include <QString>
 #include <QPen>
-#include <scenerouter.h>
+
+class SceneRouter;
+class RouterConnect;
+class Node;
 
 class Connect : public QGraphicsItem
 {
