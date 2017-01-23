@@ -4,15 +4,8 @@
 #include <QRectF>
 #include <QGraphicsScene>
 
-class ShapeBase;
-
-namespace Avoid
-{
-class Router;
-}
-
+class SceneRouter;
 class Node;
-class PathLine;
 
 class Scene : public QGraphicsScene
 {
@@ -20,14 +13,13 @@ class Scene : public QGraphicsScene
 
 public:
     Scene(QObject *parent = 0);
-
     ~Scene();
 
     void addNode(Node *node);
-    void addConnect(PathLine *pathLine);
-    Avoid::Router *router() const;
+    void addConnect(Node *src, Node *dest);
+
+    SceneRouter *router() const;
 
 private:
-    Avoid::Router *m_router;
-    static void handleConnectorCallback(void *context);
+    SceneRouter *m_router{};
 };

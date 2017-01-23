@@ -2,35 +2,19 @@
 #include <QList>
 #include <QListIterator>
 
-#include <libavoid/router.h>
-#include <libavoid/shape.h>
-#include <libavoid/connend.h>
-#include <libavoid/connector.h>
-
+#include "scenerouter.h"
 #include "scene.h"
 #include "node.h"
-#include "pathline.h"
+#include "connect.h"
 
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
 {
-    //m_router = new Avoid::Router(Avoid::PolyLineRouting);
-    m_router = new Avoid::Router(Avoid::OrthogonalRouting);
-    m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
-    m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
-    m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
-    //mRouter->setRoutingOption(Avoid::nudgeOrthogonalTouchingColinearSegments, true);
+    m_router = new SceneRouter();
 }
 
 Scene::~Scene()
 {
-    delete m_router;
-}
-
-void Scene::handleConnectorCallback(void *context)
-{
-    PathLine *edge = static_cast<PathLine *>(context);
-    edge->updatePath();
 }
 
 void Scene::addNode(Node *node)
@@ -38,13 +22,12 @@ void Scene::addNode(Node *node)
     addItem(node);
 }
 
-void Scene::addConnect(PathLine *pathLine)
+void Scene::addConnect(Node *src, Node *dest)
 {
-    pathLine->connection()->setCallback(&handleConnectorCallback, reinterpret_cast<void *>(pathLine));
-    addItem(pathLine);
+    addItem(new Connect(m_router, src, dest));
 }
 
-Avoid::Router *Scene::router() const
+SceneRouter *Scene::router() const
 {
     return m_router;
 }

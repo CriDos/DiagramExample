@@ -1,22 +1,68 @@
-#include <iostream>
-#include <cmath>
+#include "scenerouter.h"
+#include "connect.h"
 
-#include "utils.h"
+#include <node.h>
 
-namespace Utils
+SceneRouter::SceneRouter()
 {
+    m_router = new Avoid::Router(Avoid::OrthogonalRouting);
 
-QPointF toQPointF(const Avoid::Point &point)
+    m_router->setRoutingParameter(Avoid::shapeBufferDistance, 5.0);
+    m_router->setRoutingParameter(Avoid::idealNudgingDistance, 5.0);
+    m_router->setRoutingOption(Avoid::nudgeOrthogonalSegmentsConnectedToShapes, true);
+}
+
+RouterNode *SceneRouter::createNode(Node *node)
+{
+    Avoid::Rectangle rect = toARect(node->rect());
+    RouterNode *rnode = new RouterNode();
+    rnode->shapeRef = new Avoid::ShapeRef(m_router, rect);
+    new Avoid::ShapeConnectionPin(rnode->shapeRef, 1, Avoid::ATTACH_POS_CENTRE, Avoid::ATTACH_POS_CENTRE, true, 0.0, Avoid::ConnDirNone);
+
+    return rnode;
+}
+
+RouterConnect *SceneRouter::createConnect(RouterNode *src, RouterNode *dest)
+{
+    RouterConnect *connect = new RouterConnect();
+    Avoid::ConnEnd srcEnd(src->shapeRef, 1);
+    Avoid::ConnEnd dstEnd(dest->shapeRef, 1);
+    connect->shapeRef = new Avoid::ConnRef(m_router, srcEnd, dstEnd);
+    return connect;
+}
+
+Avoid::Router *SceneRouter::router() const
+{
+    return m_router;
+}
+
+void SceneRouter::reroute()
+{
+    m_router->processTransaction();
+}
+
+void SceneRouter::moveShape(RouterNode *node, QRectF rect)
+{
+    m_router->moveShape(node->shapeRef, SceneRouter::toARect(rect));
+}
+
+void SceneRouter::handleConnect(void *context)
+{
+    Connect *edge = static_cast<Connect *>(context);
+    edge->updatePath();
+}
+
+QPointF SceneRouter::toQPointF(const Avoid::Point &point)
 {
     return QPointF(point.x, point.y);
 }
 
-Avoid::Point toAPoint(const QPointF &point)
+Avoid::Point SceneRouter::toAPoint(const QPointF &point)
 {
     return Avoid::Point(point.x(), point.y());
 }
 
-QRectF toQRectF(const Avoid::Rectangle &rect)
+QRectF SceneRouter::toQRectF(const Avoid::Rectangle &rect)
 {
     QRectF newRect;
 
@@ -28,12 +74,12 @@ QRectF toQRectF(const Avoid::Rectangle &rect)
     return newRect;
 }
 
-Avoid::Rectangle toARect(const QRectF &rect)
+Avoid::Rectangle SceneRouter::toARect(const QRectF &rect)
 {
     return Avoid::Rectangle(toAPoint(rect.topLeft()), toAPoint(rect.bottomRight()));
 }
 
-Avoid::Polygon toAPolygon(const QRectF &rect)
+Avoid::Polygon SceneRouter::toAPolygon(const QRectF &rect)
 {
     Avoid::Polygon newPolygon;
 
@@ -45,7 +91,7 @@ Avoid::Polygon toAPolygon(const QRectF &rect)
     return newPolygon;
 }
 
-Avoid::Polygon toAPolygon(const QPolygonF &polygon)
+Avoid::Polygon SceneRouter::toAPolygon(const QPolygonF &polygon)
 {
     Avoid::Polygon newPolygon;
     newPolygon.ps.clear();
@@ -57,7 +103,7 @@ Avoid::Polygon toAPolygon(const QPolygonF &polygon)
     return newPolygon;
 }
 
-QPolygonF toQPolygon(const Avoid::Polygon &polygon)
+QPolygonF SceneRouter::toQPolygon(const Avoid::Polygon &polygon)
 {
     QPolygonF newPolygon;
 
@@ -68,7 +114,7 @@ QPolygonF toQPolygon(const Avoid::Polygon &polygon)
     return newPolygon;
 }
 
-QPainterPath toQPainterPath(const Avoid::PolyLine &polyline)
+QPainterPath SceneRouter::toQPainterPath(const Avoid::PolyLine &polyline)
 {
     Avoid::Point p = polyline.at(0);
     QPainterPath path(QPointF(p.x, p.y));
@@ -81,7 +127,7 @@ QPainterPath toQPainterPath(const Avoid::PolyLine &polyline)
     return path;
 }
 
-QPainterPath makeQPainterPath(Avoid::ConnRef *connection)
+QPainterPath SceneRouter::makeQPainterPath(Avoid::ConnRef *connection)
 {
     const auto &displayRoute = connection->displayRoute();
     const auto &ps = displayRoute.ps;
@@ -94,7 +140,7 @@ QPainterPath makeQPainterPath(Avoid::ConnRef *connection)
     return path;
 }
 
-QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end)
+QPolygonF SceneRouter::makeQPolygonF(const QPointF &start, const QPointF &end)
 {
     qreal Pi = 3.14;
     qreal arrowSize = 10;
@@ -119,12 +165,11 @@ QPolygonF makeQPolygonF(const QPointF &start, const QPointF &end)
     return arrowHead;
 }
 
-QPolygonF makeQPolygonF(Avoid::ConnRef *connection)
+QPolygonF SceneRouter::makeQPolygonF(Avoid::ConnRef *connection)
 {
     Avoid::PolyLine route = connection->displayRoute();
     const auto size = route.size();
     Avoid::Point start = route.at(size - 2);
     Avoid::Point end = route.at(size - 1);
     return makeQPolygonF(toQPointF(start), toQPointF(end));
-}
 }

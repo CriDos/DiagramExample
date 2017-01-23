@@ -4,28 +4,15 @@
 #
 #-------------------------------------------------
 
-include(libavoid/libavoid.pri)
+QT += core gui widgets
+CONFIG += c++14
 
-QT       += core gui
-CONFIG += c++14z
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = GraphicsViewPlaying
+TARGET = Test
 TEMPLATE = app
-DEFINES += _AFXDLL
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    node.cpp \
-    scene.cpp \
-    utils.cpp \
-    pathline.cpp
+HEADERS += $$PWD/*.h
+SOURCES += $$PWD/*.cpp
 
-HEADERS  += mainwindow.h \
-    node.h \
-    scene.h \
-    utils.h \
-    pathline.h
+FORMS += mainwindow.ui
 
-FORMS    += mainwindow.ui
+include(libavoid/libavoid.pri)
