@@ -22,14 +22,11 @@ QRouterNode *QRouter::createNode(Node *node)
     return rnode;
 }
 
-QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest, PathLine *pathLine)
+QRouterConnect *QRouter::createConnect(QRouterNode *src, QRouterNode *dest)
 {
     Avoid::ConnEnd dstEnd(src->shapeRef, 1);
     Avoid::ConnEnd srcEnd(dest->shapeRef, 1);
-    QRouterConnect *connect = new Avoid::ConnRef(this, srcEnd, dstEnd);
-    connect->setCallback(handleConnectorCallback, pathLine);
-
-    return connect;
+    return new Avoid::ConnRef(this, srcEnd, dstEnd);
 }
 
 void QRouter::handleConnectorCallback(void *context)

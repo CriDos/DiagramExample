@@ -11,10 +11,11 @@ PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent
     : QGraphicsItem(parent)
 {
     m_router = router;
-    m_connect = m_router->createConnect(src->routerNode(), dest->routerNode(), this);
+    m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
 
     m_router->processTransaction();
     m_path = QRouter::makeQPainterPath(m_connect);
+    m_connect->setCallback(QRouter::handleConnectorCallback, this);
 
     setZValue(-1);
 }

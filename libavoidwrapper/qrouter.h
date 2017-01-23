@@ -28,7 +28,7 @@ class QRouter : public Avoid::Router
 public:
     QRouter();
     QRouterNode *createNode(Node *node);
-    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest, PathLine *pathLine);
+    QRouterConnect *createConnect(QRouterNode *src, QRouterNode *dest);
 
 public:
     static void handleConnectorCallback(void *context);
