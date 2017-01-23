@@ -16,7 +16,7 @@ public:
     Scene(QObject *parent = 0);
     ~Scene();
 
-    Node *addNode();
+    Node *addNode(QPointF pos);
     void removeNode(Node *node);
     Connect *addConnect(Node *src, Node *dest);
     void removeConnect(Connect *connect);

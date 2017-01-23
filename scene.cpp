@@ -15,10 +15,11 @@ Scene::~Scene()
 {
 }
 
-Node *Scene::addNode()
+Node *Scene::addNode(QPointF pos)
 {
     Node *node = new Node(m_router);
     addItem(node);
+    node->setPos(pos);
     return node;
 }
 
