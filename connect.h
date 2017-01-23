@@ -6,10 +6,10 @@
 #include <QPen>
 #include <qrouter.h>
 
-class PathLine : public QGraphicsItem
+class Connect : public QGraphicsItem
 {
 public:
-    PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent = 0);
+    Connect(QRouter *router, Node *src, Node *dest, QGraphicsItem *parent = 0);
 
     virtual QPainterPath shape() const override;
     QRectF boundingRect() const override;
@@ -18,6 +18,6 @@ public:
 
 private:
     QPainterPath m_path;
-    QRouterConnect *m_connect{};
     QRouter *m_router{};
+    QRouterConnect *m_connect{};
 };

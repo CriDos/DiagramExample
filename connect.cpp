@@ -4,13 +4,14 @@
 #include <QGraphicsScene>
 
 #include "qrouter.h"
-#include "pathline.h"
+#include "connect.h"
 #include "node.h"
 
-PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent)
+Connect::Connect(QRouter *router, Node *src, Node *dest, QGraphicsItem *parent)
     : QGraphicsItem(parent)
+    , m_router(router)
 {
-    m_router = router;
+
     m_connect = m_router->createConnect(src->routerNode(), dest->routerNode());
     m_router->reroute();
     m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
@@ -19,17 +20,17 @@ PathLine::PathLine(Node *src, Node *dest, QRouter *router, QGraphicsItem *parent
     setZValue(-1);
 }
 
-QPainterPath PathLine::shape() const
+QPainterPath Connect::shape() const
 {
     return m_path;
 }
 
-QRectF PathLine::boundingRect() const
+QRectF Connect::boundingRect() const
 {
     return shape().boundingRect();
 }
 
-void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Connect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -44,7 +45,7 @@ void PathLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->restore();
 }
 
-void PathLine::updatePath()
+void Connect::updatePath()
 {
     m_path = QRouter::makeQPainterPath(m_connect->shapeRef);
     scene()->update();

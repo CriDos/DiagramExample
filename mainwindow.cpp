@@ -6,7 +6,7 @@
 
 #include "scene.h"
 #include "node.h"
-#include "pathline.h"
+#include "connect.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

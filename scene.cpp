@@ -5,7 +5,7 @@
 #include "qrouter.h"
 #include "scene.h"
 #include "node.h"
-#include "pathline.h"
+#include "connect.h"
 
 Scene::Scene(QObject *parent)
     : QGraphicsScene(parent)
@@ -24,7 +24,7 @@ void Scene::addNode(Node *node)
 
 void Scene::addConnect(Node *src, Node *dest)
 {
-    auto pathLine = new PathLine(src, dest, m_router);
+    auto pathLine = new Connect(m_router, src, dest);
     addItem(pathLine);
 }
 

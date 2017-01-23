@@ -14,7 +14,7 @@
 #include <QPainterPath>
 
 class Node;
-class PathLine;
+class Connect;
 
 class QRouter
 {
@@ -52,7 +52,7 @@ struct QRouterNode {
 struct QRouterConnect {
     Avoid::ConnRef *shapeRef{};
 
-    void setCallback(PathLine *pathLine)
+    void setCallback(Connect *pathLine)
     {
         shapeRef->setCallback(QRouter::handleConnectorCallback, pathLine);
     }

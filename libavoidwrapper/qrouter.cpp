@@ -1,5 +1,5 @@
 #include "qrouter.h"
-#include "pathline.h"
+#include "connect.h"
 
 #include <node.h>
 
@@ -49,7 +49,7 @@ void QRouter::moveShape(QRouterNode *node, QRectF rect)
 
 void QRouter::handleConnectorCallback(void *context)
 {
-    PathLine *edge = static_cast<PathLine *>(context);
+    Connect *edge = static_cast<Connect *>(context);
     edge->updatePath();
 }
 
